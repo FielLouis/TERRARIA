@@ -87,5 +87,8 @@ public class Hud {
         stage.draw();
     }
 
+    public void dispose() {
+        stage.dispose();
+    }
 
 }

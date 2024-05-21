@@ -1,35 +1,36 @@
 package com.mygdx.game.Screens;
 
-import com.badlogic.gdx.*;
-import com.mygdx.game.MyWorld;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Terraria;
 
-public class EntityScreen implements Screen {
+import static java.time.InstantSource.tick;
 
+public class GameScreen implements Screen {
     public final Terraria game;
-    private final MyWorld world;
+    protected Viewport viewport;
 
-    public EntityScreen(Terraria game){
+    public GameScreen(final Terraria game) {
         this.game = game;
-        world = new MyWorld();
     }
 
     @Override
     public void show() {
+
     }
 
+    public void handleInput(float delta) {
 
+    }
 
     @Override
     public void render(float delta) {
-        world.update(delta);
-        world.render(delta);
+        handleInput(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        world.updateGameport(width, height);
-        world.getHudStage().getViewport().update(width, height, true);
+
     }
 
     @Override
@@ -49,6 +50,6 @@ public class EntityScreen implements Screen {
 
     @Override
     public void dispose() {
-        world.dispose();
+
     }
 }

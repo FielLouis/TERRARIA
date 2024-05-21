@@ -1,0 +1,31 @@
+{
+  "BitmapFont": {
+    "default-font": {
+      "file": "FONTS/font03_64.fnt"
+    }
+  },
+  Color: {
+    white: {
+      hex: "#FFFFFF"
+    }
+  }
+  "LabelStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "white"
+    }
+  },
+  "TextButtonStyle": {
+    "default": {
+      "up": "default-round",
+      "down": "default-round-down",
+      "font": "default-font"
+    }
+  },
+  "ImageButtonStyle": {
+    "default": {
+      "imageUp": "default-circle",
+      "imageDown": "default-circle"
+    }
+  }
+}

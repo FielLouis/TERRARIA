@@ -148,7 +148,7 @@ public class Player extends Sprite{
         if(b == null){
             return;
         }
-        //TO DOO damage of player based on current item
+        //TO DO damage of player based on current item
         b.breaklife -=2;
 
         if(b.breaklife <= 0){
@@ -204,7 +204,7 @@ public class Player extends Sprite{
         hud.update(0, inventory, currentItem);
     }
 
-
+    //TODO when exit ma save ag player og ag states
 
     private void setState(AnimationState newState) {
         currentAnimationState = newState;

@@ -44,6 +44,7 @@ public class MyWorld {
     private Hud hud;
     private ArrayList<SpriteBatch> spriteBatches;
     public static HashSet<Body> bodiesToremove;
+    private boolean canJump;
 
     private MyInputProcessorFactory.MyInputListenerA playerListenerMine;
     private MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
@@ -57,6 +58,7 @@ public class MyWorld {
         world = new World(new Vector2(0,-140f), true);
         spriteBatches = new ArrayList<>();
         bodiesToremove = new HashSet<>();
+        canJump = true;
 
         for (int i = 0; i < 10; i++) {
             SpriteBatch spriteBatch = new SpriteBatch();
@@ -89,6 +91,7 @@ public class MyWorld {
 
         handleInput(dt);
         player.update(dt);
+        resetJump();
 
 
         if(!world.isLocked()){
@@ -110,7 +113,7 @@ public class MyWorld {
     }
 
     public void render(float delta){
-        Gdx.gl.glClearColor(89, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         GameCamUpdate();
@@ -165,12 +168,18 @@ public class MyWorld {
         gamecam.update();
     }
 
+    private void resetJump() {
+        if(player.getB2body().getLinearVelocity().y == 0) {
+            canJump = true;
+        }
+    }
+
     public void handleInput(float dt){
         playerListenerMine.updateListenerA();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump){
             player.getB2body().applyLinearImpulse(new Vector2(0, 900f), player.getB2body().getWorldCenter(), true);
-            player.getB2body().applyLinearImpulse(new Vector2(0, 900f), player.getB2body().getWorldCenter(), true);
+            canJump = false;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D) && player.getB2body().getLinearVelocity().x <= 50){
@@ -183,6 +192,10 @@ public class MyWorld {
 
         if(Gdx.input.isKeyPressed(Input.Keys.Z) ){
             System.out.println("Player body pos in world. X,Y = " + player.getB2body().getPosition());
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
         }
 
     }
@@ -207,6 +220,10 @@ public class MyWorld {
         renderer.dispose();
         b2dr.dispose();
         world.dispose();
+        for (SpriteBatch spriteBatch : spriteBatches) {
+            spriteBatch.dispose();
+        }
+        hud.dispose();
     }
 
     public void updateGameport(int width, int height){
