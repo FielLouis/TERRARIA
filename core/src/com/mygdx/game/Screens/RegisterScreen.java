@@ -80,6 +80,15 @@ public class RegisterScreen extends GameScreen {
         table.add(backButton);
     }
 
+    @Override
+    public void handleInput(final float delta) {
+        super.handleInput(delta);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+    }
+
     private boolean isValidLogin(String username, String password) {
         // Placeholder for actual login validation logic
         return "admin".equals(username) && "password".equals(password);

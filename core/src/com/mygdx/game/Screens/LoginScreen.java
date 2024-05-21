@@ -87,6 +87,15 @@ public class LoginScreen extends GameScreen {
     }
 
     @Override
+    public void handleInput(final float delta) {
+        super.handleInput(delta);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+    }
+
+    @Override
     public void render(float delta) {
         super.render(delta);
 
