@@ -103,22 +103,23 @@ public class RegisterScreen extends GameScreen {
         table.add(backButton);
     }
 
+
     private boolean isValidRegister(String username) {
 
         try (Connection c = DatabaseManager.getConnection();
              PreparedStatement statement = c.prepareStatement(
-                    "INSERT INTO tblusers (uname, upassword) VALUES (?, ?)"
+                     "INSERT INTO tblusers (uname, upassword) VALUES (?, ?)"
              )) {
 
             String query = "SELECT * FROM tblusers";
             ResultSet res = statement.executeQuery(query);
 
-            while(res.next()) {
+            while (res.next()) {
                 int id = res.getInt("id");
                 String name = res.getString("uname");
 
                 //checks if inputted username already exists or not
-                if(name.equals(username)) {
+                if (name.equals(username)) {
                     return false;
                 }
             }

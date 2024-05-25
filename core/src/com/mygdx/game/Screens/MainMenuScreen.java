@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -30,7 +31,13 @@ public class MainMenuScreen extends GameScreen {
         stage = new Stage(viewport, batch);
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("uiskin_mainmenu.json")); // Use the appropriate skin file
+        // Load the texture atlas
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("uiskin_mainmenu.atlas"));
+
+        // Load the skin using the atlas
+        skin = new Skin(Gdx.files.internal("uiskin_mainmenu.json"), atlas);
+
+        //skin = new Skin(Gdx.files.internal("uiskin_mainmenu.json")); // Use the appropriate skin file
 
         TextButton btnLogin = new TextButton(optionLogin, skin);
         btnLogin.setPosition((viewport.getWorldWidth() - btnLogin.getWidth()) / 2, ((viewport.getWorldHeight() - btnLogin.getHeight()) / 2) - 50);
@@ -60,6 +67,10 @@ public class MainMenuScreen extends GameScreen {
     @Override
     public void handleInput(final float delta) {
         super.handleInput(delta);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
     }
 
     @Override
