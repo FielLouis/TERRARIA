@@ -14,6 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Terraria;
+import com.mygdx.game.Utilities.DatabaseManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class RegisterScreen extends GameScreen {
     private Stage stage;
@@ -49,12 +55,29 @@ public class RegisterScreen extends GameScreen {
         passwordField.setPasswordMode(true);
 
         // Create the login button
-        TextButton loginButton = new TextButton("Login", skin);
-        loginButton.addListener(new ClickListener() {
+        TextButton registerButton = new TextButton("Register User", skin);
+        registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (isValidLogin(usernameField.getText(), passwordField.getText())) {
-                    game.setScreen(new EntityScreen(game));
+                if (isValidRegister(usernameField.getText())) {
+                    //insert data
+                    try (Connection c = DatabaseManager.getConnection();
+                         PreparedStatement statement = c.prepareStatement(
+                                 "INSERT INTO tblusers (uname, upassword) VALUES (?, ?)"
+                         )) {
+
+                        String username = usernameField.getText();
+                        String userpassword = String.valueOf(passwordField.getText().hashCode());
+
+                        statement.setString(1, username);
+                        statement.setString(2, userpassword);
+
+                        statement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    game.setScreen(new LoginScreen(game));
                 }
             }
         });
@@ -76,22 +99,39 @@ public class RegisterScreen extends GameScreen {
         table.add(passwordLabel).pad(10);
         table.add(passwordField).width(200).pad(10);
         table.row();
-        table.add(loginButton).pad(10);
+        table.add(registerButton).pad(10);
         table.add(backButton);
     }
 
-    private boolean isValidLogin(String username, String password) {
-        // Placeholder for actual login validation logic
-        return "admin".equals(username) && "password".equals(password);
+    private boolean isValidRegister(String username) {
+
+        try (Connection c = DatabaseManager.getConnection();
+             PreparedStatement statement = c.prepareStatement(
+                    "INSERT INTO tblusers (uname, upassword) VALUES (?, ?)"
+             )) {
+
+            String query = "SELECT * FROM tblusers";
+            ResultSet res = statement.executeQuery(query);
+
+            while(res.next()) {
+                int id = res.getInt("id");
+                String name = res.getString("uname");
+
+                //checks if inputted username already exists or not
+                if(name.equals(username)) {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        // Clear the screen
-        Gdx.gl.glClearColor(0.2f, 0.3f, 0.3f, 1); //background for the Login Screen
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update and draw the stage
         stage.act(delta);
@@ -101,6 +141,11 @@ public class RegisterScreen extends GameScreen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void handleInput(final float delta) {
+        super.handleInput(delta);
     }
 
     @Override

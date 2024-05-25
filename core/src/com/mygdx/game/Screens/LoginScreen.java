@@ -14,7 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Terraria;
+import com.mygdx.game.Utilities.DatabaseManager;
 import org.w3c.dom.Text;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Objects;
 
 public class LoginScreen extends GameScreen {
     private Stage stage;
@@ -54,7 +61,7 @@ public class LoginScreen extends GameScreen {
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (isValidLogin(usernameField.getText(), passwordField.getText())) {
+                if (isValidLogin(usernameField.getText(), String.valueOf(passwordField.getText().hashCode()))) {
                     game.setScreen(new EntityScreen(game));
                 }
             }
@@ -82,17 +89,34 @@ public class LoginScreen extends GameScreen {
     }
 
     private boolean isValidLogin(String username, String password) {
-        // Placeholder for actual login validation logic
-        return "admin".equals(username) && "password".equals(password);
+        if("admin".equals(username) && String.valueOf("123".hashCode()).equals(password)) {
+            return true;
+        }
+
+        try (Connection c = DatabaseManager.getConnection();
+             Statement statement = c.createStatement()) {
+            String query = "SELECT * FROM tblusers";
+            ResultSet res = statement.executeQuery(query);
+
+            while(res.next()) {
+                String uname = res.getString("uname");
+                String upass = res.getString("upassword");
+
+                //checks if username exists
+                if(uname.equals(username) && upass.equals(password)) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        // Clear the screen
-        Gdx.gl.glClearColor(0.2f, 0.3f, 0.3f, 1); //background for the Login Screen
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update and draw the stage
         stage.act(delta);
@@ -102,6 +126,11 @@ public class LoginScreen extends GameScreen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void handleInput(final float delta) {
+        super.handleInput(delta);
     }
 
     @Override

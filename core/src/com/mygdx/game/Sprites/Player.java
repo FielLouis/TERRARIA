@@ -148,7 +148,7 @@ public class Player extends Sprite{
         if(b == null){
             return;
         }
-        //TO DO damage of player based on current item
+        //TODO damage of player based on current item
         b.breaklife -=2;
 
         if(b.breaklife <= 0){

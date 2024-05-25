@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Helper.AssetsManager;
 import com.mygdx.game.Screens.MainMenuScreen;
+import com.mygdx.game.Utilities.DatabaseManager;
 
 public class Terraria extends Game {
 	private SpriteBatch batch;
@@ -25,7 +26,8 @@ public class Terraria extends Game {
 
 	@Override
 	public void create () {
-		System.out.println("calling Login");
+		DatabaseManager.createDatabase();
+		DatabaseManager.createTableUser();
 		setScreen(new MainMenuScreen(this));
 	}
 
