@@ -202,6 +202,9 @@ public class MiningWorld extends GameWorld{
             System.out.println("Player body pos in world. X,Y = " + player.getB2body().getPosition());
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
 
     }
 

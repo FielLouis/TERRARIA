@@ -7,10 +7,10 @@ import com.mygdx.game.YearOneWorld;
 public class YearOneScreen implements Screen {
     private YearOneWorld world;
 
-
     public YearOneScreen(MiningWorld miningWorld){
         world = new YearOneWorld(miningWorld);
     }
+
     @Override
     public void show() {
 
