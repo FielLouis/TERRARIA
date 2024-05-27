@@ -8,7 +8,6 @@ import com.mygdx.game.Sprites.GameMode;
 import com.mygdx.game.Sprites.Player;
 
 public class MyInputProcessorFactory {
-
     GameWorld world;
 
 
@@ -25,10 +24,10 @@ public class MyInputProcessorFactory {
 
     }
 
-    public class MyInputListenerA implements InputProcessor {
+    public static class MyInputListenerA implements InputProcessor {
         private boolean isLeftHold = false;
-        private Vector2 current_tile = new Vector2(0,0);
-        private MiningWorld world;
+        private final Vector2 current_tile = new Vector2(0,0);
+        private final MiningWorld world;
 
         public MyInputListenerA(GameWorld world) {
             this.world = (MiningWorld) world;

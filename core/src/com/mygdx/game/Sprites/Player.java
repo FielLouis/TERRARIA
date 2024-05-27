@@ -23,7 +23,7 @@ import java.util.HashSet;
 
 public class Player extends Sprite{
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
-    private World world;
+    private final World world;
     private Body b2body;
     private Animation<TextureRegion> walkRightAnimation;
     private Animation<TextureRegion> walkLeftAnimation;
@@ -31,10 +31,10 @@ public class Player extends Sprite{
 
     private AnimationState currentAnimationState;
     private float stateTime = 0f;
-    private ArrayList<Pair<Item, Integer>> inventory;
-    private HashSet<Body> playerDeletes;
+    private final ArrayList<Pair<Item, Integer>> inventory;
+    private final HashSet<Body> playerDeletes;
     private int currentItem = 0;
-    private Hud hud;
+    private final Hud hud;
     private GameMode current_mode;
 
     private float life;

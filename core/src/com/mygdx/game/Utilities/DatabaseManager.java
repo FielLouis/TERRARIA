@@ -57,10 +57,7 @@ public class DatabaseManager {
                              "uname VARCHAR(50) NOT NULL," +
                              "upassword VARCHAR(50) NOT NULL, " +
                              "cutsceneDone BOOLEAN NOT NULL DEFAULT FALSE," +
-                             "floor1Done BOOLEAN NOT NULL DEFAULT FALSE," +
-                             "floor2Done BOOLEAN NOT NULL DEFAULT FALSE," +
-                             "floor3Done BOOLEAN NOT NULL DEFAULT FALSE," +
-                             "floor4Done BOOLEAN NOT NULL DEFAULT FALSE" +
+                             "bossDone BOOLEAN NOT NULL DEFAULT FALSE" +
                              ")"
              )) {
             c.setAutoCommit(false);

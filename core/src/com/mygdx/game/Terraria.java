@@ -24,20 +24,20 @@ public class Terraria extends Game {
 		batch = new SpriteBatch();
 		DatabaseManager.createDatabase();
 		DatabaseManager.createTableUser();
-		setScreen(new SplashScreen(this));
 
-//		miningworld = new MiningScreen();
-//		setScreen(miningworld);
-//		one = new YearOneScreen(miningworld.getWorld());
-//
-//		InputProcessor ip1 = miningworld.getWorld().getHudStage();
-//		InputProcessor ip2 = one.getWorld().getHudStage();
-//
-//		MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
-//		MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
-//
-//		System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
-//		Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
+		miningworld = new MiningScreen(this);
+		one = new YearOneScreen(this, miningworld.getWorld());
+
+		InputProcessor ip1 = miningworld.getWorld().getHudStage();
+		InputProcessor ip2 = one.getWorld().getHudStage();
+
+		MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
+		MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
+
+		System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
+		Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
+
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override

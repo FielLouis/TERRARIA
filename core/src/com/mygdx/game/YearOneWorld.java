@@ -37,18 +37,18 @@ import java.util.Random;
 
 public class YearOneWorld extends GameWorld{
     private static OrthographicCamera gamecam;
-    private Viewport gamePort;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private World world;
-    private Box2DDebugRenderer b2dr;
-    private Player player;
-    private YearOneBoss boss;
-    private Hud hud;
-    private ArrayList<SpriteBatch> spriteBatches;
+    private final Viewport gamePort;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
+    private final World world;
+    private final Box2DDebugRenderer b2dr;
+    private final Player player;
+    private final YearOneBoss boss;
+    private final Hud hud;
+    private final ArrayList<SpriteBatch> spriteBatches;
     public static HashSet<Projectile> bodiesToremove;
-    private MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
-    private MiningWorld past_world;
+    private final MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
+    private final MiningWorld past_world;
 
 
     public YearOneWorld(MiningWorld mineworld) {
@@ -174,7 +174,6 @@ public class YearOneWorld extends GameWorld{
         gamecam.position.x = player.getB2body().getPosition().x;
         gamecam.position.y = player.getB2body().getPosition().y + 260;
         gamecam.update();
-
     }
 
     public void handleInput(float dt){
@@ -191,7 +190,6 @@ public class YearOneWorld extends GameWorld{
         if(Gdx.input.isKeyPressed(Input.Keys.A) && player.getB2body().getLinearVelocity().x >= -50){
             player.getB2body().applyLinearImpulse(new Vector2(-80f, 0), player.getB2body().getWorldCenter(), true);
         }
-
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M) ){
             int random = new Random().nextInt(701) + 50;

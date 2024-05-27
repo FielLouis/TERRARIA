@@ -2,13 +2,15 @@ package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.*;
 import com.mygdx.game.MiningWorld;
+import com.mygdx.game.Terraria;
 
 public class MiningScreen implements Screen {
+    private final Terraria game;
+    private final MiningWorld world;
 
-    private MiningWorld world;
-
-    public MiningScreen(){
-        world = new MiningWorld();
+    public MiningScreen(final Terraria game){
+        this.game = game;
+        world = new MiningWorld(this.game);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class SplashScreen implements Screen {
             public void run() {
                 game.setScreen(new MainMenuScreen(game));
             }
-        }, 2); // Show the splash screen for 2 seconds
+        }, 2);
     }
 
     @Override

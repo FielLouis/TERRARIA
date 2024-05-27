@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("CITerraria");
 
-		//TODO first splashscreen for cutscene (implementation)
+		//TODO first splashscreen for cutscene (auto)
 
 		//TODO ideas
 		// boss fight no.1 bomb drop (done)

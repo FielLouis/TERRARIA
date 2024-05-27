@@ -31,25 +31,34 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class MiningWorld extends GameWorld{
+    private final Terraria game;
     private static OrthographicCamera gamecam;
-    private Viewport gamePort;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    private final Viewport gamePort;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
     public static HashMap<Vector2, Block> tilesMap = new HashMap<>();
     public static ArrayList<Drop> drops = new ArrayList<>();
 
-    private World world;
-    private Box2DDebugRenderer b2dr;
-    private Player player;
-    private Merchant merchant;
-    private Hud hud;
-    private ArrayList<SpriteBatch> spriteBatches;
+    private final World world;
+    private final Box2DDebugRenderer b2dr;
+    private final Player player;
+    private final Merchant merchant;
+    private final Hud hud;
+    private final ArrayList<SpriteBatch> spriteBatches;
     public static HashSet<Body> bodiesToremove;
+    private boolean canJump;
 
-    private MyInputProcessorFactory.MyInputListenerA playerListenerMine;
-    private MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
+    private final MyInputProcessorFactory.MyInputListenerA playerListenerMine;
+    private final MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
 
-    public MiningWorld() {
+    private void resetJump() {
+        if(player.getB2body().getLinearVelocity().y == 0) {
+            canJump = true;
+        }
+    }
+
+    public MiningWorld(final Terraria game) {
+        this.game = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(Terraria.V_WIDTH, Terraria.V_HEIGHT,gamecam);
         map = new TmxMapLoader().load("MAPS/map.tmx");
@@ -58,7 +67,6 @@ public class MiningWorld extends GameWorld{
         world = new World(new Vector2(0,-140f), true);
         spriteBatches = new ArrayList<>();
         bodiesToremove = new HashSet<>();
-
 
         for (int i = 0; i < 10; i++) {
             SpriteBatch spriteBatch = new SpriteBatch();
@@ -91,7 +99,8 @@ public class MiningWorld extends GameWorld{
         handleInput(dt);
         player.update(dt);
         merchant.update(dt);
-        merchant.merchantboard.update(player.getPosition(), merchant.getPosition());
+        Merchant.merchantboard.update(player.getPosition(), merchant.getPosition());
+        resetJump();
 
 
         if(!world.isLocked()){
@@ -108,8 +117,6 @@ public class MiningWorld extends GameWorld{
             player.getB2body().applyForceToCenter(new Vector2(0, -600 ), true);
         }
         //------------------------------------------------------------------------------
-
-
 
         world.step(1/60f,6, 2);
     }
@@ -150,8 +157,6 @@ public class MiningWorld extends GameWorld{
                 sb.end();
             } else if (i == 3) {
 
-
-
                 sb.setProjectionMatrix(gamecam.combined);
                 sb.begin();
 
@@ -164,7 +169,7 @@ public class MiningWorld extends GameWorld{
                 sb.end();
             } else if (i == 4){
                 sb.begin();
-                merchant.merchantboard.render(delta);
+                Merchant.merchantboard.render(delta);
                 hud.render(delta);
                 sb.end();
             }
@@ -185,9 +190,19 @@ public class MiningWorld extends GameWorld{
     public void handleInput(float dt){
         playerListenerMine.updateListenerA();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT_BRACKET) ){
+            game.setScreen(Terraria.miningworld);
+            Terraria.gameMode = GameMode.MINING_MODE;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)){
+            game.setScreen(Terraria.one);
+            Terraria.gameMode = GameMode.YEAR_ONE_MODE;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump){
             player.getB2body().applyLinearImpulse(new Vector2(0, 900f), player.getB2body().getWorldCenter(), true);
-            player.getB2body().applyLinearImpulse(new Vector2(0, 900f), player.getB2body().getWorldCenter(), true);
+            canJump = false;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D) && player.getB2body().getLinearVelocity().x <= 50){
@@ -240,7 +255,7 @@ public class MiningWorld extends GameWorld{
     }
 
     public MerchantBoard getMerchantboard() {
-        return merchant.merchantboard;
+        return Merchant.merchantboard;
     }
 
     public MyInputProcessorFactory.MyInputListenerA getPlayerListenerMine() {

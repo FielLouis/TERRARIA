@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -16,17 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.Helper.CutsceneHelper;
 import com.mygdx.game.MyInputProcessorFactory;
 import com.mygdx.game.Sprites.GameMode;
 import com.mygdx.game.Terraria;
+import com.mygdx.game.Utilities.CurrentUser;
 import com.mygdx.game.Utilities.DatabaseManager;
-import org.w3c.dom.Text;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Objects;
+import java.sql.*;
 
 public class LoginScreen extends GameScreen {
     private final Stage stage;
@@ -95,20 +89,51 @@ public class LoginScreen extends GameScreen {
     }
 
     private void loggingIn() {
+        //checks if username exists
         if (isValidLogin(usernameField.getText(), String.valueOf(passwordField.getText().hashCode()))) {
-            miningworld = new MiningScreen();
-            game.setScreen(miningworld);
-            one = new YearOneScreen(miningworld.getWorld());
 
-            InputProcessor ip1 = miningworld.getWorld().getHudStage();
-            InputProcessor ip2 = one.getWorld().getHudStage();
-
-            MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
-            MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
-
-            System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
-            Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
+            if(!checkIsCutsceneDone()) {
+                game.setScreen(new CutsceneHelper(game));
+            } else {
+//                miningworld = new MiningScreen(game);
+                game.setScreen(Terraria.miningworld);
+//                one = new YearOneScreen(game, miningworld.getWorld());
+//
+//                InputProcessor ip1 = miningworld.getWorld().getHudStage();
+//                InputProcessor ip2 = one.getWorld().getHudStage();
+//
+//                MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
+//                MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
+//
+//                System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
+//                Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(), scrollyearone, scrollmine));
+            }
         }
+    }
+
+    private boolean checkIsCutsceneDone() {
+        try (Connection c = DatabaseManager.getConnection();
+             Statement statement = c.createStatement()) {
+            String query = "SELECT * FROM tblusers WHERE id=?";
+            PreparedStatement preparedStatement = c.prepareStatement(query);
+
+            preparedStatement.setInt(1, CurrentUser.getCurrentUserID());
+            ResultSet res = preparedStatement.executeQuery();
+
+            while(res.next()) {
+                if(res.getBoolean("cutsceneDone")) {
+                    System.out.println("Aye");
+                    return true;
+                } else {
+                    System.out.println("Nay");
+                    return false;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private boolean isValidLogin(String username, String password) {
@@ -122,11 +147,16 @@ public class LoginScreen extends GameScreen {
             ResultSet res = statement.executeQuery(query);
 
             while(res.next()) {
+                int id = res.getInt("id");
                 String uname = res.getString("uname");
                 String upass = res.getString("upassword");
 
                 //checks if username exists
                 if(uname.equals(username) && upass.equals(password)) {
+
+                    //getting current user
+                    CurrentUser.setCurrentUser(uname);
+                    CurrentUser.setCurrentUserID(id);
                     return true;
                 }
             }
@@ -154,16 +184,6 @@ public class LoginScreen extends GameScreen {
     @Override
     public void handleInput(final float delta) {
         super.handleInput(delta);
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT_BRACKET) ){
-            game.setScreen(miningworld);
-            gameMode = GameMode.MINING_MODE;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)){
-            game.setScreen(one);
-            gameMode = GameMode.YEAR_ONE_MODE;
-        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             loggingIn();

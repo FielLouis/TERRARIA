@@ -1,13 +1,18 @@
 package com.mygdx.game.Screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.MiningWorld;
+import com.mygdx.game.Terraria;
 import com.mygdx.game.YearOneWorld;
 
 public class YearOneScreen implements Screen {
-    private YearOneWorld world;
+    private final Terraria game;
+    private final YearOneWorld world;
 
-    public YearOneScreen(MiningWorld miningWorld){
+    public YearOneScreen(final Terraria game, MiningWorld miningWorld){
+        this.game = game;
         world = new YearOneWorld(miningWorld);
     }
 
@@ -20,6 +25,7 @@ public class YearOneScreen implements Screen {
     public void render(float delta) {
         world.update(delta);
         world.render(delta);
+        world.handleInput(delta);
     }
 
     @Override
