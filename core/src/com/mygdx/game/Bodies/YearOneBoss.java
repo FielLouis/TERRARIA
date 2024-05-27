@@ -1,29 +1,28 @@
-package com.mygdx.game.Sprites;
+package com.mygdx.game.Bodies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Bodies.BossAttacks.Missile;
 import com.mygdx.game.Helper.CooldownTask;
-import com.mygdx.game.Sprites.BossAttacks.Missile;
 import com.mygdx.game.YearOneWorld;
 
 import java.util.Random;
 
 public class YearOneBoss extends Sprite {
-    private final World world;
+    private World world;
     private Body b2body;
-
-    private GameMode mode;
+    public GameMode mode;
 
     private final float cooldown = 10f;
-    private final float current_cooldown = 0;
+    private float current_cooldown = 0;
     private float timeSinceLastAttack = 0f;
     private final float attackInterval = 0.2f;
     private static final Texture t1 = new Texture("RAW/attack_serato.png");
     private static final Texture t2 = new Texture("RAW/break_serato.png");
     private static final float width = 100, height = 100;
-    private final CooldownTask cooldownBossStateHandler;
+    private CooldownTask cooldownBossStateHandler;
     public float life;
 
     public YearOneBoss(World world, float WorldX, float WorldY){
@@ -107,7 +106,6 @@ public class YearOneBoss extends Sprite {
 
         if(timeSinceLastAttack >= attackInterval){
             Missile m = new Missile(world, b2body.getPosition().x - width / 2 + random - 30, b2body.getPosition().y - height - 70);
-            //new Missile(world, b2body.getPosition().x - width / 2, b2body.getPosition().y - height - 20);
             YearOneWorld.missiles.add(m);
             timeSinceLastAttack = 0f;
             return m;

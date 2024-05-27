@@ -1,9 +1,9 @@
-package com.mygdx.game.Sprites.WorldWeapons;
+package com.mygdx.game.Bodies.WorldWeapons;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.Sprites.Player;
-import com.mygdx.game.Sprites.WeaponObject;
+import com.mygdx.game.Bodies.Player;
+import com.mygdx.game.Bodies.WeaponObject;
 
 public class Paladin extends WeaponObject {
 

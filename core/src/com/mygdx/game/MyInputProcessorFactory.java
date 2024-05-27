@@ -4,8 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.Sprites.GameMode;
-import com.mygdx.game.Sprites.Player;
+import com.mygdx.game.Bodies.GameMode;
+import com.mygdx.game.Bodies.Player;
 
 public class MyInputProcessorFactory {
     GameWorld world;
@@ -100,7 +100,7 @@ public class MyInputProcessorFactory {
         }
     }
 
-    public class MyInputListenerB implements InputProcessor {
+    public static class MyInputListenerB implements InputProcessor {
         Player player;
         GameWorld world;
 

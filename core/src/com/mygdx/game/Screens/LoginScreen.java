@@ -3,7 +3,6 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,13 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Helper.CutsceneHelper;
-import com.mygdx.game.MyInputProcessorFactory;
-import com.mygdx.game.Sprites.GameMode;
+import com.mygdx.game.Bodies.GameMode;
 import com.mygdx.game.Terraria;
 import com.mygdx.game.Utilities.CurrentUser;
 import com.mygdx.game.Utilities.DatabaseManager;
 
 import java.sql.*;
+
+import static com.mygdx.game.Terraria.*;
 
 public class LoginScreen extends GameScreen {
     private final Stage stage;
@@ -28,11 +28,10 @@ public class LoginScreen extends GameScreen {
     private final TextField usernameField;
     private final TextField passwordField;
     public static YearOneScreen one;
-    public static MiningScreen miningworld;
     public static GameMode gameMode = GameMode.MINING_MODE;
 
     public LoginScreen(final Terraria game) {
-        super(game, "UI/LoginRegisterScreen.png");
+        super(game,"UI/LoginRegisterScreen.png");
 
         // Initialize the stage and set it as the input processor
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -97,17 +96,10 @@ public class LoginScreen extends GameScreen {
             } else {
                 game.setScreen(Terraria.miningworld);
 
-//                InputProcessor ip1 = miningworld.getWorld().getHudStage();
-//                InputProcessor ip2 = one.getWorld().getHudStage();
-//
-//                MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
-//                MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
-//
-//                System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
-//                Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getBlacksmithBoard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
-
+                Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getBlacksmithBoard().getStage(), miningworld.getWorld().getGuardBoard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
             }
         }
+
     }
 
     private boolean checkIsCutsceneDone() {

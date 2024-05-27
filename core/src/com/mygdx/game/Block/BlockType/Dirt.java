@@ -10,7 +10,7 @@ import com.mygdx.game.Helper.AnimationHelper;
 import com.mygdx.game.Items.BlockItems.DirtItem;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.MiningWorld;
-import com.mygdx.game.Sprites.Drop;
+import com.mygdx.game.Bodies.Drop;
 
 public class Dirt extends Block {
     private static final TextureRegion[][] dirtTextures = AnimationHelper.getTexturePack(3, 6, new Texture("RAW/dynamic_dirt.png"));

@@ -1,19 +1,14 @@
 package com.mygdx.game.Block;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Helper.Cell;
-import com.mygdx.game.Helper.WorldCreator;
-import com.mygdx.game.Sprites.Drop;
+import com.mygdx.game.Bodies.Drop;
 import com.mygdx.game.Terraria;
-import jdk.internal.net.http.common.Pair;
-import org.w3c.dom.Text;
 
 public abstract class Block {
     protected World world;

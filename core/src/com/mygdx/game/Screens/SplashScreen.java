@@ -12,7 +12,7 @@ public class SplashScreen implements Screen {
 
     public SplashScreen(final Terraria game) {
         this.game = game;
-        splashImage = new Texture("splash.png"); // Make sure you have a splash.png in your assets folder
+        splashImage = new Texture("splash.png");
     }
 
     @Override
@@ -23,11 +23,13 @@ public class SplashScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game));
             }
         }, 2);
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+
         game.getBatch().begin();
         game.getBatch().draw(splashImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.getBatch().end();

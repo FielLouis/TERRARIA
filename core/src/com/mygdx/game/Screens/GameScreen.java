@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Terraria;
 
-import static java.time.InstantSource.tick;
-
 public class GameScreen implements Screen {
     public final Terraria game;
     protected Viewport viewport;

@@ -3,15 +3,21 @@ package com.mygdx.game.Inventory;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+
 import com.mygdx.game.Helper.BoxActor;
 import com.mygdx.game.Items.Item;
-import com.mygdx.game.Sprites.Merchant;
+
+import com.mygdx.game.Bodies.Merchant;
 
 public class ItemBox extends BoxActor implements Draggable {
     private static final int MAX_NUMBER = 64;
@@ -20,8 +26,8 @@ public class ItemBox extends BoxActor implements Draggable {
     public Label countLabel;
     private int count = 0;
 
-    private float originalX;
-    private float originalY;
+    private final float originalX;
+    private final float originalY;
 
     public ItemBox(Item item, int x, int y) {
         super(item.getTexture());
@@ -64,7 +70,9 @@ public class ItemBox extends BoxActor implements Draggable {
     }
 
     public void render(){
-        countLabel.setText(Integer.toString(count));
+        if(count != -1){
+            countLabel.setText(Integer.toString(count));
+        }
 
         if(item == null || item.getTexture() == null){
             setTexture(defaultTexture);
@@ -141,8 +149,6 @@ public class ItemBox extends BoxActor implements Draggable {
                         Merchant.merchantboard.showTrade();
                     }
 
-
-
                     setPosition(originalX, originalY);
                     countLabel.setPosition(originalX - 5, originalY - 5);
                     dragging = false;
@@ -153,8 +159,8 @@ public class ItemBox extends BoxActor implements Draggable {
         });
     }
 
-
-
-
+    public void setLabelToText(String text){
+        countLabel.setText(text);
+    }
 
 }

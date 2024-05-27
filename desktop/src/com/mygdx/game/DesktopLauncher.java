@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		// when trying to exit, pop up screen (threads)
 
 		//sets app into fullscreen as launched
-		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 
 		new Lwjgl3Application(new Terraria(), config);
 

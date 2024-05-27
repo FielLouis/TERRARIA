@@ -2,10 +2,10 @@ package com.mygdx.game.Items.Weapons;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Bodies.Player;
+import com.mygdx.game.Bodies.WeaponObject;
+import com.mygdx.game.Bodies.WorldWeapons.Paladin;
 import com.mygdx.game.Items.Weapon;
-import com.mygdx.game.Sprites.Player;
-import com.mygdx.game.Sprites.WeaponObject;
-import com.mygdx.game.Sprites.WorldWeapons.Paladin;
 
 public class PaladinItem extends Weapon {
     private static Paladin paladin;

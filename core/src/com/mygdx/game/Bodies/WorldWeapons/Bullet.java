@@ -1,4 +1,4 @@
-package com.mygdx.game.Sprites.WorldWeapons;
+package com.mygdx.game.Bodies.WorldWeapons;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

@@ -27,7 +27,7 @@ public class MainMenuScreen extends GameScreen {
     private final Skin skin;
 
     public MainMenuScreen(Terraria game) {
-        super(game, "UI/MainMenuScreen.png");
+        super(game,"UI/MainMenuScreen.png");
 
         viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 

@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,72 +9,53 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Helper.SoundManager;
+import com.mygdx.game.Bodies.GameMode;
+import com.mygdx.game.Bodies.Player;
 import com.mygdx.game.Inventory.InventoryBox;
 import com.mygdx.game.Inventory.ItemBox;
-import com.mygdx.game.Items.Weapons.PaladinItem;
-import com.mygdx.game.Items.Weapons.PistolItem;
-import com.mygdx.game.Bodies.Drop;
-import com.mygdx.game.Bodies.Player;
 import com.mygdx.game.Terraria;
 
-import java.util.ArrayList;
+public class GuardBoard {
 
-public class BlackSmithBoard {
     private Stage stage;
     private Viewport viewport;
 
-    private ArrayList<InventoryBox> products;
-    private InventoryBox coinBox;
-
-
+    private InventoryBox tuitionBox;
     public boolean isHidden = true;
-
     private boolean alreadyTalked = false;
-
     private Player player;
 
-    public BlackSmithBoard(SpriteBatch batch, Player player){
+    public GuardBoard(SpriteBatch batch, Player player){
         this.player = player;
         this.viewport = new FitViewport(Terraria.V_WIDTH, Terraria.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(this.viewport, batch);
-        products  = new ArrayList<>();
 
-        for(int i = 0; i < 6; i++){
-            ItemBox itembox = new ItemBox(237 + (i * 60) , (int) (Terraria.V_HEIGHT / 2.0) + 58);
-            itembox.addDragListener();
-            if(i == 1){
-                itembox.setItem(new PistolItem());
-            } else {
-                itembox.setItem(new PaladinItem());
-            }
+        ItemBox itembox = new ItemBox(347  , (int) (Terraria.V_HEIGHT / 2.0) + 43);
+        itembox.addDragListener();
+        itembox.setItem(null);
+        itembox.setCount(-1);
+        itembox.setLabelToText("PAY TUITION (500$)");
+        itembox.setSize(25,25);
+        tuitionBox = new InventoryBox(itembox);
+        tuitionBox.setSize(40,40);
+        tuitionBox.setPosition(340 , (float) (Terraria.V_HEIGHT / 2.0) + 35);
+        Texture t = new Texture("RAW/tuition_box.png");
+        tuitionBox.setTexture(t);
+        tuitionBox.setSize(t.getWidth(), t.getHeight());
 
-            itembox.setCount(50);
+        stage.addActor(tuitionBox);
+        stage.addActor(tuitionBox.itembox);
+        stage.addActor(tuitionBox.itembox.countLabel);
 
-            itembox.setSize(25,25);
-            InventoryBox product = new InventoryBox(itembox);
-            product.setSize(40,40);
-            product.setPosition(230 + (i * 60), (float) (Terraria.V_HEIGHT / 2.0) + 50);
 
-            stage.addActor(product);
-            stage.addActor(product.itembox);
-            stage.addActor(product.itembox.countLabel);
-
-            products.add(product);
-
-            itembox.addListener(new InputListener() {
+        tuitionBox.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    player.buySomething(new Drop(player.getB2body().getWorld(), -1,-1,itembox.getItem()), itembox.getCount());
+                    Terraria.gameMode = GameMode.YEAR_ONE_MODE;
                     return false;
                 }
 
-            });
-        }
-
-
-
-
+        });
 
     }
     public Stage getStage(){
@@ -86,7 +68,7 @@ public class BlackSmithBoard {
             isHidden = false;
 
             if(!alreadyTalked){
-                SoundManager.playBuySomehthing();
+                //SoundManager.playBuySomehthing();
                 alreadyTalked = true;
             }
 
@@ -99,9 +81,8 @@ public class BlackSmithBoard {
     }
 
     public void render(float dt){
-        for(int i = 0; i < 6; i++){
-            products.get(i).itembox.render();
-        }
+
+        tuitionBox.itembox.render();
 
         stage.act(dt);
         stage.draw();

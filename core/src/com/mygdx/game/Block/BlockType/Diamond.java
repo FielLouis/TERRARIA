@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Block.Block;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Resources.DiamondItem;
-import com.mygdx.game.Sprites.Drop;
+import com.mygdx.game.Bodies.Drop;
 
 public class Diamond extends Block {
     private static final Texture defaultTexture = new Texture("RAW/diamond_block.png");

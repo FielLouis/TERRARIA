@@ -19,14 +19,12 @@ import com.mygdx.game.Helper.Pair;
 import com.mygdx.game.Helper.WorldCreator;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Screens.Hud;
-import com.mygdx.game.Sprites.*;
-import com.mygdx.game.Sprites.BossAttacks.Missile;
-import com.mygdx.game.Sprites.WorldWeapons.Bullet;
-import com.mygdx.game.Sprites.WorldWeapons.Pistol;
+import com.mygdx.game.Bodies.*;
+import com.mygdx.game.Bodies.BossAttacks.Missile;
+import com.mygdx.game.Bodies.WorldWeapons.Bullet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
 
 
 public class YearOneWorld extends GameWorld{
@@ -43,14 +41,16 @@ public class YearOneWorld extends GameWorld{
     private final ArrayList<SpriteBatch> spriteBatches;
     public static ArrayList<Missile> missiles;
     public static ArrayList<Bullet> bullets;
-    public static HashSet<Projectile> bodiesToremove;
+    public static HashSet<Body> bodiesToremove;
     private final MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
     private final MiningWorld past_world;
+    public static boolean isDone = false;
 
 
     public YearOneWorld(final Terraria game, MiningWorld mineworld) {
         this.game = game;
         this.past_world = mineworld;
+
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(Terraria.V_WIDTH + 200, Terraria.V_HEIGHT + 200,gamecam);
         map = new TmxMapLoader().load("MAPS/FLOOR2/MAPS/FLOOR 2.tmx");
@@ -103,9 +103,9 @@ public class YearOneWorld extends GameWorld{
         }
 
         if(!world.isLocked()){
-            for(Projectile b : bodiesToremove){
+            for(Body b : bodiesToremove){
                 if(b != null){
-                    world.destroyBody(b.getBody());
+                    world.destroyBody(b);
                     bodiesToremove.remove(b);
                     break;
                 }

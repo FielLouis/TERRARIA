@@ -13,8 +13,8 @@ import com.mygdx.game.Inventory.ItemBox;
 import com.mygdx.game.Items.Coin;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Sellable;
-import com.mygdx.game.Sprites.Drop;
-import com.mygdx.game.Sprites.Player;
+import com.mygdx.game.Bodies.Drop;
+import com.mygdx.game.Bodies.Player;
 import com.mygdx.game.Terraria;
 
 public class MerchantBoard {

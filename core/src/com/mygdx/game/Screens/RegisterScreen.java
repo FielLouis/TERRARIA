@@ -28,7 +28,7 @@ public class RegisterScreen extends GameScreen {
     private final TextField passwordField;
 
     public RegisterScreen(final Terraria game) {
-        super(game, "UI/LoginRegisterScreen.png");
+        super(game,"UI/LoginRegisterScreen.png");
 
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);

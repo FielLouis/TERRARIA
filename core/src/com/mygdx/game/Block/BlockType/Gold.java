@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Block.Block;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Resources.GoldItem;
-import com.mygdx.game.Sprites.Drop;
+import com.mygdx.game.Bodies.Drop;
 
 public class Gold extends Block {
     private static final Texture defaultTexture = new Texture("RAW/gold_block.png");

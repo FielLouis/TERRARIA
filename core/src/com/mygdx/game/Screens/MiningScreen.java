@@ -29,6 +29,7 @@ public class MiningScreen implements Screen {
         world.getHudStage().getViewport().update(width, height, true);
         world.getMerchantboard().getViewport().update(width, height, true);
         world.getBlacksmithBoard().getViewport().update(width, height, true);
+        world.getGuardBoard().getViewport().update(width, height, true);
     }
 
     @Override

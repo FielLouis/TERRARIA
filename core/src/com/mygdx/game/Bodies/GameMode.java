@@ -1,4 +1,4 @@
-package com.mygdx.game.Sprites;
+package com.mygdx.game.Bodies;
 
 public enum GameMode {
     MINING_MODE,

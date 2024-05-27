@@ -1,4 +1,4 @@
-package com.mygdx.game.Sprites;
+package com.mygdx.game.Bodies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,25 +10,23 @@ import com.mygdx.game.Helper.Pair;
 import com.mygdx.game.Items.Coin;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Sellable;
-import com.mygdx.game.Screens.MerchantBoard;
+import com.mygdx.game.Screens.BlackSmithBoard;
 import com.mygdx.game.Terraria;
 
 import java.util.ArrayList;
 
-public class Merchant extends Sprite {
-
+public class Blacksmith extends Sprite {
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
     private World world;
     private Body b2body;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime = 0f;
     private ArrayList<Pair<Item, Integer>> inventory;
-    public static MerchantBoard merchantboard;
-
-    public Merchant (World world, SpriteBatch batch, Player player){
+    public static BlackSmithBoard blackSmithBoard;
+    public Blacksmith (World world, SpriteBatch batch, Player player){
         super(ATLAS.findRegion("steve"));
         this.world = world;
-        merchantboard = new MerchantBoard(batch, player);
+        blackSmithBoard = new BlackSmithBoard(batch, player);
 
         inventory = new ArrayList<>(8);
 
@@ -46,16 +44,15 @@ public class Merchant extends Sprite {
     }
 
     private void initAnimations() {
-        Texture idleSheet = new Texture(Gdx.files.internal("RAW/merchant_idle2.png"));
-        idleAnimation = AnimationHelper.getAnimation(1,42,idleSheet,0.2f);
-
+        Texture idleSheet = new Texture(Gdx.files.internal("RAW/blacksmith_idle.png"));
+        idleAnimation = AnimationHelper.getAnimation(1,24,idleSheet,0.25f);
     }
 
     private void definePlayer() {
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(32 / Terraria.PPM * 14,384 / Terraria.PPM * 3);
+        bdef.position.set(32 / Terraria.PPM * 20,384 / Terraria.PPM * 3);
 
         b2body = world.createBody(bdef);
 
@@ -92,5 +89,4 @@ public class Merchant extends Sprite {
     public Vector2 getPosition(){
         return b2body.getPosition();
     }
-
 }
