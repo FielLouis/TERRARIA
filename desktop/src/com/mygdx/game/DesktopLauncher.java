@@ -7,11 +7,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("CITerra");
+		config.setTitle("CITerraria");
 
-		//Login interface ui first
-		//TODO then splashscreen (Company Name: WonderPetz, GameName: CITerra)
-		// splashscreen for cutscene
+		//TODO first splashscreen for cutscene (implementation)
 
 		//TODO ideas
 		// boss fight no.1 bomb drop (done)

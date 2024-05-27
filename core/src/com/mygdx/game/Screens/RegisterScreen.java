@@ -22,40 +22,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RegisterScreen extends GameScreen {
-    private Stage stage;
-    private Skin skin;
-    private TextField usernameField;
-    private TextField passwordField;
+    private final Stage stage;
+    private final Skin skin;
+    private final TextField usernameField;
+    private final TextField passwordField;
 
     public RegisterScreen(final Terraria game) {
         super(game, "UI/LoginRegisterScreen.png");
 
-        // Initialize the stage and set it as the input processor
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        // Load the skin
         skin = new Skin(Gdx.files.internal("UI/uiskin_login.json"));
 
-        // Create the table and add it to the stage
         Table table = new Table();
         table.setFillParent(true);
-        stage.addActor(table);
 
-        TextField txtRegister = new TextField("REGISTER", skin);
+        TextField txtRegister = new TextField("REGISTRATION", skin);
+        txtRegister.setPosition(((Gdx.graphics.getWidth() - txtRegister.getWidth()) / 2), Gdx.graphics.getHeight() - 300);
 
-        // Create the username label and text field
         Label usernameLabel = new Label("Username:", skin);
         usernameField = new TextField("", skin);
 
-        // Create the password label and text field
         Label passwordLabel = new Label("Password:", skin);
         passwordField = new TextField("", skin);
         passwordField.setPasswordCharacter('*');
         passwordField.setPasswordMode(true);
 
-        // Create the login button
-        TextButton registerButton = new TextButton("Register User", skin);
+        TextButton registerButton = new TextButton("Register", skin);
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,26 +75,30 @@ public class RegisterScreen extends GameScreen {
                 }
             }
         });
+        registerButton.setPosition(((Gdx.graphics.getWidth() - registerButton.getWidth()) / 2) + 20, Gdx.graphics.getHeight() - 905);
 
-        TextButton backButton = new TextButton("Back", skin);
+
+        TextButton backButton = new TextButton("X", skin, "red");
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
+        backButton.setPosition(((float) Gdx.graphics.getWidth() / 2) + 783, Gdx.graphics.getHeight() - 120);
 
-        // Add the UI components to the table
-        table.add(txtRegister).width(200).colspan(2).pad(10);
-        table.row();
+        stage.addActor(txtRegister);
+        stage.addActor(table);
+
         table.add(usernameLabel).pad(10);
         table.add(usernameField).width(200).pad(10);
         table.row();
         table.add(passwordLabel).pad(10);
         table.add(passwordField).width(200).pad(10);
         table.row();
-        table.add(registerButton).pad(10);
-        table.add(backButton);
+
+        stage.addActor(registerButton);
+        stage.addActor(backButton);
     }
 
 

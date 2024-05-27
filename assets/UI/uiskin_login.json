@@ -11,6 +11,9 @@
     black: {
       hex: "#000000"
     }
+    red: {
+      hex: "#D73407"
+    }
   }
   "LabelStyle": {
     "default": {
@@ -24,6 +27,12 @@
       "down": "default-round-down",
       "font": "default-font",
       "fontColor" : "black"
+    }
+    "red": {
+      "up": "default-round",
+      "down": "default-round-down",
+      "font": "default-font",
+      "fontColor" : "red"
     }
   },
   "TextFieldStyle": {

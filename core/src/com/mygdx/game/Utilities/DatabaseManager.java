@@ -55,7 +55,13 @@ public class DatabaseManager {
                      "CREATE TABLE IF NOT EXISTS tblusers" +
                              "( id INTEGER(11) NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                              "uname VARCHAR(50) NOT NULL," +
-                             "upassword VARCHAR(50) NOT NULL )"
+                             "upassword VARCHAR(50) NOT NULL, " +
+                             "cutsceneDone BOOLEAN NOT NULL DEFAULT FALSE," +
+                             "floor1Done BOOLEAN NOT NULL DEFAULT FALSE," +
+                             "floor2Done BOOLEAN NOT NULL DEFAULT FALSE," +
+                             "floor3Done BOOLEAN NOT NULL DEFAULT FALSE," +
+                             "floor4Done BOOLEAN NOT NULL DEFAULT FALSE" +
+                             ")"
              )) {
             c.setAutoCommit(false);
             statement.execute();
@@ -65,12 +71,4 @@ public class DatabaseManager {
         }
     }
 
-    public static void main(String[] args) {
-        Connection c = getConnection();
-        try {
-            c.close();
-        } catch (SQLException e) {
-            System.out.println("main sql");
-        }
-    }
 }

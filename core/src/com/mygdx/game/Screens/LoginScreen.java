@@ -33,7 +33,6 @@ public class LoginScreen extends GameScreen {
     private final Skin skin;
     private final TextField usernameField;
     private final TextField passwordField;
-    private final Texture backgroundTexture;
     public static YearOneScreen one;
     public static MiningScreen miningworld;
     public static GameMode gameMode = GameMode.MINING_MODE;
@@ -47,8 +46,6 @@ public class LoginScreen extends GameScreen {
 
         // Load the skin
         skin = new Skin(Gdx.files.internal("UI/uiskin_login.json"));
-
-        backgroundTexture = new Texture("UI/LoginRegisterScreen.png");
 
         // Create the table and add it to the stage
         Table table = new Table();
@@ -75,14 +72,14 @@ public class LoginScreen extends GameScreen {
         });
         loginButton.setPosition(((Gdx.graphics.getWidth() - loginButton.getWidth()) / 2) + 20, Gdx.graphics.getHeight() - 905);
 
-        TextButton backButton = new TextButton("Back", skin);
+        TextButton backButton = new TextButton("X", skin, "red");
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-        backButton.setPosition((Gdx.graphics.getWidth() - backButton.getWidth())/ 2, Gdx.graphics.getHeight() - 125);
+        backButton.setPosition(((float) Gdx.graphics.getWidth() / 2) + 783, Gdx.graphics.getHeight() - 120);
 
         stage.addActor(txtLogin);
 
