@@ -3,26 +3,19 @@ package com.mygdx.game.Inventory;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-
 import com.mygdx.game.Helper.BoxActor;
 import com.mygdx.game.Items.Item;
-
 import com.mygdx.game.Sprites.Merchant;
-import com.mygdx.game.Sprites.Player;
 
 public class ItemBox extends BoxActor implements Draggable {
     private static final int MAX_NUMBER = 64;
-    public static final Texture defaultTexture = new Texture("RAW/empty.png");
+    public static final Texture defaultTexture = new Texture("empty.png");
     private Item item;
     public Label countLabel;
     private int count = 0;

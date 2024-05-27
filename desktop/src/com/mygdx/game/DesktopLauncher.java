@@ -12,13 +12,10 @@ public class DesktopLauncher {
 		//TODO first splashscreen for cutscene (auto)
 
 		//TODO ideas
-		// boss fight no.1 bomb drop (done)
-		// boss fight no.2 platformer parkour
-		// boss fight no.3 spin the wheel
-		// boss fight no.4 (suggestions: TicTacToe, Exam-essay(sir will grade, manual input)
+		// when trying to exit, pop up screen (threads)
 
 		//sets app into fullscreen as launched
-		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 
 		new Lwjgl3Application(new Terraria(), config);
 

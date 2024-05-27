@@ -1,12 +1,12 @@
 package com.mygdx.game.Sprites.WorldWeapons;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Sprites.WeaponObject;
 
 public class Paladin extends WeaponObject {
+
     public Paladin(World world, Player player, float WorldX, float WorldY){
         damage = 20f;
         width = 10;
@@ -56,6 +56,11 @@ public class Paladin extends WeaponObject {
     }
 
     @Override
+    public void useWeapon(float delta, float x, float y) {
+        useWeapon(delta);
+    }
+
+    @Override
     public float getDamage() {
         return damage;
     }
@@ -71,6 +76,8 @@ public class Paladin extends WeaponObject {
     }
 
     public void render(float delta) {
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+
     }
+
+
 }

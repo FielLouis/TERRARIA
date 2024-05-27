@@ -1,20 +1,21 @@
 package com.mygdx.game.Items.Weapons;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Items.Weapon;
+import com.mygdx.game.Sprites.Player;
+import com.mygdx.game.Sprites.WeaponObject;
 import com.mygdx.game.Sprites.WorldWeapons.Paladin;
 
 public class PaladinItem extends Weapon {
-    private static final Texture t = new Texture("item_demo.png");
-    private Paladin paladin;
+    private static Paladin paladin;
+    private static final Texture t = new Texture("RAW/paladin.png");
     public PaladinItem(String name, String description, Paladin paladin) {
         super(name, description);
-        this.paladin = paladin;
     }
 
-    public PaladinItem(Paladin paladin) {
+    public PaladinItem() {
         super("Paladin", "To damage enemies");
-        this.paladin = paladin;
     }
 
     @Override
@@ -27,7 +28,13 @@ public class PaladinItem extends Weapon {
         return t;
     }
 
-    public Paladin getWeaponObject(){
+
+    @Override
+    public WeaponObject getWeaponObject(World world, Player player) {
+        if (paladin == null){
+            paladin = new Paladin(world,player, 1,1);
+        }
+
         return paladin;
     }
 }

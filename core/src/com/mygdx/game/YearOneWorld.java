@@ -4,7 +4,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,28 +13,24 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Helper.AnimationState;
 import com.mygdx.game.Helper.Pair;
 import com.mygdx.game.Helper.WorldCreator;
 import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.Weapon;
 import com.mygdx.game.Screens.Hud;
-import com.mygdx.game.Block.Block;
-import com.mygdx.game.Screens.MerchantBoard;
 import com.mygdx.game.Sprites.*;
-import com.mygdx.game.Sprites.Bullets.Missile;
-import com.mygdx.game.Sprites.WorldWeapons.Paladin;
+import com.mygdx.game.Sprites.BossAttacks.Missile;
+import com.mygdx.game.Sprites.WorldWeapons.Bullet;
+import com.mygdx.game.Sprites.WorldWeapons.Pistol;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
 
 public class YearOneWorld extends GameWorld{
+    private final Terraria game;
     private static OrthographicCamera gamecam;
     private final Viewport gamePort;
     private final TiledMap map;
@@ -46,21 +41,26 @@ public class YearOneWorld extends GameWorld{
     private final YearOneBoss boss;
     private final Hud hud;
     private final ArrayList<SpriteBatch> spriteBatches;
+    public static ArrayList<Missile> missiles;
+    public static ArrayList<Bullet> bullets;
     public static HashSet<Projectile> bodiesToremove;
     private final MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
     private final MiningWorld past_world;
 
 
-    public YearOneWorld(MiningWorld mineworld) {
+    public YearOneWorld(final Terraria game, MiningWorld mineworld) {
+        this.game = game;
         this.past_world = mineworld;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(Terraria.V_WIDTH + 200, Terraria.V_HEIGHT + 200,gamecam);
-        map = new TmxMapLoader().load("MAPS/yearone.tmx");
+        map = new TmxMapLoader().load("MAPS/FLOOR2/MAPS/FLOOR 2.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, Terraria.PPM);
         gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight()/2,0);
         world = new World(new Vector2(0,-140f), true);
         spriteBatches = new ArrayList<>();
         bodiesToremove = new HashSet<>();
+        bullets = new ArrayList<>();
+        missiles = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             SpriteBatch spriteBatch = new SpriteBatch();
@@ -78,13 +78,11 @@ public class YearOneWorld extends GameWorld{
 
         hud = new Hud(spriteBatches.get(3),temp);
 
-
         player = new Player(world, hud);
         player.getB2body().setTransform(new Vector2(320,320), 0);
         player.setCurrent_mode(GameMode.COMBAT_MODE);
 
         boss = new YearOneBoss(world, 520, 500);
-
 
         MyInputProcessorFactory inputFactory = new MyInputProcessorFactory();
         playerListenerScroll = (MyInputProcessorFactory.MyInputListenerB) inputFactory.processInput(this, "B", player);
@@ -108,7 +106,6 @@ public class YearOneWorld extends GameWorld{
             for(Projectile b : bodiesToremove){
                 if(b != null){
                     world.destroyBody(b.getBody());
-                    b.setAlpha(0);
                     bodiesToremove.remove(b);
                     break;
                 }
@@ -152,22 +149,23 @@ public class YearOneWorld extends GameWorld{
                 sb.setProjectionMatrix(gamecam.combined);
                 sb.begin();
 
-
                 sb.end();
             } else if (i == 3) {
                 sb.setProjectionMatrix(gamecam.combined);
                 sb.begin();
+
                 sb.end();
             } else if (i == 4){
                 sb.begin();
                 hud.render(delta);
+
                 sb.end();
             }
         }
 
         b2dr.render(world,gamecam.combined);
-
         boss.render(delta);
+
     }
 
     private void GameCamUpdate(){
@@ -191,25 +189,12 @@ public class YearOneWorld extends GameWorld{
             player.getB2body().applyLinearImpulse(new Vector2(-80f, 0), player.getB2body().getWorldCenter(), true);
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.M) ){
-            int random = new Random().nextInt(701) + 50;
-            new Missile(world, random,620);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            boss.getBody().applyLinearImpulse(new Vector2(80f, 0), player.getB2body().getWorldCenter(), true);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            boss.getBody().applyLinearImpulse(new Vector2(-80f, 0), player.getB2body().getWorldCenter(), true);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            Missile m = boss.attack(dt);
-        }
-
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-            player.attack(dt);
+
+            Vector3 screenCoordinates = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            Vector3 worldCoordinates = gamecam.unproject(screenCoordinates);
+
+            player.attack(dt, worldCoordinates.x, worldCoordinates.y);
         }
 
     }

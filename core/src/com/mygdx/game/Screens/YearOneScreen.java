@@ -13,7 +13,7 @@ public class YearOneScreen implements Screen {
 
     public YearOneScreen(final Terraria game, MiningWorld miningWorld){
         this.game = game;
-        world = new YearOneWorld(miningWorld);
+        world = new YearOneWorld(this.game, miningWorld);
     }
 
     @Override

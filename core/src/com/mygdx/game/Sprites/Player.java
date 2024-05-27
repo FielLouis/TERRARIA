@@ -2,9 +2,13 @@ package com.mygdx.game.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Block.Block;
 import com.mygdx.game.Helper.AnimationHelper;
 import com.mygdx.game.Helper.AnimationState;
 import com.mygdx.game.Helper.Cell;
@@ -13,11 +17,11 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Placeable;
 import com.mygdx.game.Items.Weapon;
 import com.mygdx.game.Items.Weapons.PaladinItem;
+import com.mygdx.game.Items.Weapons.PistolItem;
 import com.mygdx.game.MiningWorld;
-import com.mygdx.game.Block.Block;
 import com.mygdx.game.Screens.Hud;
-import com.mygdx.game.Sprites.WorldWeapons.Paladin;
 import com.mygdx.game.Terraria;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -31,7 +35,7 @@ public class Player extends Sprite{
 
     private AnimationState currentAnimationState;
     private float stateTime = 0f;
-    private final ArrayList<Pair<Item, Integer>> inventory;
+    private ArrayList<Pair<Item, Integer>> inventory;
     private final HashSet<Body> playerDeletes;
     private int currentItem = 0;
     private final Hud hud;
@@ -54,6 +58,8 @@ public class Player extends Sprite{
             inventory.add(new Pair<>(null,0));
         }
 
+//        inventory.add(0,new Pair<>(new PaladinItem(), 1));
+//        inventory.add(1,new Pair<>(new PistolItem(), 1));
 
         definePlayer();
 
@@ -61,8 +67,6 @@ public class Player extends Sprite{
         setBounds(0,0,48 / Terraria.PPM  , 44 / Terraria.PPM );
         setRegion(playerStand);
 
-
-        inventory.add(0, new Pair<>(new PaladinItem(new Paladin(world, this, getPosition().x, getPosition().y)), 1));
 
         initAnimations();
     }
@@ -216,12 +220,13 @@ public class Player extends Sprite{
         return false;
     }
 
-    public void attack(float dt){
+    public void attack(float dt, float x, float y){
 
         Item weapon =  currentItemPair().getFirst();
+
         if(weapon instanceof Weapon){
-            WeaponObject wpo = ((Weapon) weapon).getWeaponObject();
-            wpo.useWeapon(dt);
+            WeaponObject wpo = ((Weapon) weapon).getWeaponObject(world, this);
+            wpo.useWeapon(dt, x,y);
         }
 
         setCurrent_mode(GameMode.ATTACKING_MODE);
@@ -300,5 +305,9 @@ public class Player extends Sprite{
 
     public void setLife(float life) {
         this.life = life;
+    }
+
+    public void setInventory(ArrayList<Pair<Item, Integer>> inventory) {
+        this.inventory = inventory;
     }
 }

@@ -1,19 +1,16 @@
 package com.mygdx.game.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.Items.Item;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Projectile extends Sprite {
     public float damage;
     public float width, height;
     public float speed;
 
-    private World world;
+    protected World world;
     protected Body b2body;
-
-
-
 
     public Body getBody(){
         return b2body;

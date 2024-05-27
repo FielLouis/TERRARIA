@@ -2,7 +2,6 @@ package com.mygdx.game.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
-
 import com.mygdx.game.Items.Item;
 
 public class Drop extends Sprite {
@@ -38,10 +37,6 @@ public class Drop extends Sprite {
         fdef.friction = 30f;
 
         b2body.createFixture(fdef).setUserData(this);
-    }
-
-    public void update(float delta) {
-
     }
 
     public Body getBody(){

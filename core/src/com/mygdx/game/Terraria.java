@@ -17,6 +17,8 @@ public class Terraria extends Game {
 	public static final float PPM = 1;
 	public static YearOneScreen one;
 	public static MiningScreen miningworld;
+	public static InputProcessor ip1;
+	public static InputProcessor ip2;
 	public static GameMode gameMode = GameMode.MINING_MODE;
 
 	@Override
@@ -28,16 +30,17 @@ public class Terraria extends Game {
 		miningworld = new MiningScreen(this);
 		one = new YearOneScreen(this, miningworld.getWorld());
 
-		InputProcessor ip1 = miningworld.getWorld().getHudStage();
-		InputProcessor ip2 = one.getWorld().getHudStage();
+		ip1 = miningworld.getWorld().getHudStage();
+		ip2 = one.getWorld().getHudStage();
 
 		MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
 		MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
 
 		System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
-		Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
+		Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getBlacksmithBoard().getStage(), miningworld.getWorld().getPlayerListenerMine(), scrollyearone, scrollmine));
 
-		setScreen(new SplashScreen(this));
+		setScreen(miningworld); //if this line is uncommented, mogana ag pag delete sa block sa miningworld
+//		setScreen(new SplashScreen(this)); //if this line is uncommented, dli maka deletyte block ag player
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import com.mygdx.game.Sprites.Player;
 public class MyInputProcessorFactory {
     GameWorld world;
 
-
     public InputProcessor processInput (GameWorld world, String listenerType, Player player){
         this.world = world;
         switch (listenerType) {

@@ -5,21 +5,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Block.Block;
 import com.mygdx.game.Helper.AnimationHelper;
 import com.mygdx.game.Items.BlockItems.DirtItem;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.MiningWorld;
-import com.mygdx.game.Block.Block;
 import com.mygdx.game.Sprites.Drop;
 
 public class Dirt extends Block {
     private static final TextureRegion[][] dirtTextures = AnimationHelper.getTexturePack(3, 6, new Texture("RAW/dynamic_dirt.png"));
     public Dirt(World world,Rectangle rect) {
         super(world,rect, dirtTextures[0][0].getTexture());
-        changeRightTexture();
+        changeRightTexture(1,1);
     }
 
-    public void changeRightTexture(){
+    public void changeRightTexture(int r, int c){
         Vector2 top = new Vector2(cell.row - 1, cell.column);
         Vector2 bottom = new Vector2(cell.row + 1, cell.column);
         Vector2 left = new Vector2(cell.row, cell.column -1);
@@ -62,7 +62,7 @@ public class Dirt extends Block {
             ansY = 1;
         }
 
-        changeTexture(dirtTextures[ansX][ansY]);
+        changeTexture(dirtTextures[r][c]);
     }
 
     @Override

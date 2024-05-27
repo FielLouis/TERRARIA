@@ -111,10 +111,6 @@ public class Hud {
                 box.itembox.render();
         }
 
-
-
     }
-
-
 
 }

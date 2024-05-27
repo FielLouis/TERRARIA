@@ -1,7 +1,5 @@
 package com.mygdx.game.Helper;
 
-import com.badlogic.gdx.graphics.Texture;
-
 import java.util.ArrayList;
 
 public class HealthBar {

@@ -4,27 +4,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.Items.Item;
-import com.mygdx.game.Sprites.Bullets.Missile;
+import com.mygdx.game.Helper.CooldownTask;
+import com.mygdx.game.Sprites.BossAttacks.Missile;
+import com.mygdx.game.YearOneWorld;
 
 import java.util.Random;
 
 public class YearOneBoss extends Sprite {
-    private World world;
+    private final World world;
     private Body b2body;
 
-    private GameMode mode = GameMode.COMBAT_MODE;
+    private GameMode mode;
 
     private final float cooldown = 10f;
-    private float current_cooldown = 0;
+    private final float current_cooldown = 0;
     private float timeSinceLastAttack = 0f;
     private final float attackInterval = 0.2f;
-
-
     private static final Texture t1 = new Texture("RAW/attack_serato.png");
     private static final Texture t2 = new Texture("RAW/break_serato.png");
     private static final float width = 100, height = 100;
-
+    private final CooldownTask cooldownBossStateHandler;
     public float life;
 
     public YearOneBoss(World world, float WorldX, float WorldY){
@@ -32,6 +31,8 @@ public class YearOneBoss extends Sprite {
         this.world = world;
         life = 1000;
         defineBody(WorldX, WorldY);
+        cooldownBossStateHandler = new CooldownTask(10);
+        mode = GameMode.COMBAT_MODE;
     }
 
     private void defineBody(float WorldX, float WorldY) {
@@ -66,7 +67,7 @@ public class YearOneBoss extends Sprite {
                 }
         }
 
-        if(current_cooldown >= cooldown){
+        if(!cooldownBossStateHandler.isCooldownActive()){
             if(mode == GameMode.COMBAT_MODE){
                 mode = GameMode.VULNERABLE_MODE;
                 setTexture(t2);
@@ -78,11 +79,8 @@ public class YearOneBoss extends Sprite {
                 setTexture(t1);
             }
 
-
-            current_cooldown = 0;
-            return;
+            cooldownBossStateHandler.startCooldown();
         }
-        current_cooldown += delta;
 
         if(life == 0){
             world.destroyBody(b2body);
@@ -108,8 +106,9 @@ public class YearOneBoss extends Sprite {
         int random = new Random().nextInt((int) width + 80);
 
         if(timeSinceLastAttack >= attackInterval){
-            Missile m = new Missile(world, b2body.getPosition().x - width / 2 + random - 30, b2body.getPosition().y - height - 20);
+            Missile m = new Missile(world, b2body.getPosition().x - width / 2 + random - 30, b2body.getPosition().y - height - 70);
             //new Missile(world, b2body.getPosition().x - width / 2, b2body.getPosition().y - height - 20);
+            YearOneWorld.missiles.add(m);
             timeSinceLastAttack = 0f;
             return m;
         }

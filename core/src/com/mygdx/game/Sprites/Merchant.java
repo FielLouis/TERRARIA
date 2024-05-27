@@ -6,19 +6,14 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Helper.AnimationHelper;
-import com.mygdx.game.Helper.AnimationState;
 import com.mygdx.game.Helper.Pair;
-import com.mygdx.game.Inventory.InventoryBox;
-import com.mygdx.game.Inventory.ItemBox;
 import com.mygdx.game.Items.Coin;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Sellable;
-import com.mygdx.game.Screens.Hud;
 import com.mygdx.game.Screens.MerchantBoard;
 import com.mygdx.game.Terraria;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Merchant extends Sprite {
 
@@ -51,8 +46,8 @@ public class Merchant extends Sprite {
     }
 
     private void initAnimations() {
-        Texture idleSheet = new Texture(Gdx.files.internal("RAW/player_idle.png"));
-        idleAnimation = AnimationHelper.getAnimation(1,2,idleSheet,0.2f);
+        Texture idleSheet = new Texture(Gdx.files.internal("RAW/merchant_idle2.png"));
+        idleAnimation = AnimationHelper.getAnimation(1,42,idleSheet,0.2f);
 
     }
 

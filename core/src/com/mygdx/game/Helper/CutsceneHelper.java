@@ -55,18 +55,19 @@ public class CutsceneHelper implements Screen {
                 }
 
                 //transferring to MiningWorld
-                miningworld = new MiningScreen(game);
-                game.setScreen(miningworld);
-                one = new YearOneScreen(game, miningworld.getWorld());
-
-                InputProcessor ip1 = miningworld.getWorld().getHudStage();
-                InputProcessor ip2 = one.getWorld().getHudStage();
-
-                MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
-                MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
-
-                System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
-                Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(), scrollyearone, scrollmine));
+                game.setScreen(Terraria.miningworld);
+//                miningworld = new MiningScreen(game);
+//                game.setScreen(miningworld);
+//                one = new YearOneScreen(game, miningworld.getWorld());
+//
+//                InputProcessor ip1 = miningworld.getWorld().getHudStage();
+//                InputProcessor ip2 = one.getWorld().getHudStage();
+//
+//                MyInputProcessorFactory.MyInputListenerB scrollmine = miningworld.getWorld().getPlayerListenerScroll();
+//                MyInputProcessorFactory.MyInputListenerB scrollyearone = one.getWorld().getPlayerListenerScroll();
+//
+//                System.out.println("Mine: " + scrollmine.debugg() + "\nOne: " + scrollyearone.debugg());
+//                Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getPlayerListenerMine(), scrollyearone, scrollmine));
 
             } else {
 

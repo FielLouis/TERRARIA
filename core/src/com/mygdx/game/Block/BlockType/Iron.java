@@ -5,13 +5,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Block.Block;
 import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.Resources.DiamondItem;
 import com.mygdx.game.Items.Resources.IronItem;
 import com.mygdx.game.Sprites.Drop;
 
 public class Iron extends Block {
 
-    private static final Texture defaultTexture = new Texture("RAW/iron.png");
+    private static final Texture defaultTexture = new Texture("RAW/iron_block.png");
 
     public Iron(World world, Rectangle rect) {
         super(world,rect, defaultTexture);
