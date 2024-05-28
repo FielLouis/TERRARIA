@@ -11,8 +11,8 @@ public class SoundManager {
     private static Music goodLookingWeapon = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/goodLookingWeapon.wav"));
     private static Music notEnoughMoney = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/notEnoughMoney.wav"));
     private static Music breakBlock = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/breakBlock.mp3"));
-
     private static Music allHail = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/allHail.mp3"));
+    private static Music bossHurt = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/serato_hurt.mp3"));
 
     public static void playBackgroundMusic() {
         nujabes.setLooping(true);
@@ -57,7 +57,13 @@ public class SoundManager {
         damaged.setLooping(false);
         damaged.setVolume(1f);
         damaged.play();
+    }
 
+    public void playDamagedBoss() {
+        Music damaged = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/serato_hurt.mp3"));
+        damaged.setLooping(false);
+        damaged.setVolume(1f);
+        damaged.play();
     }
 
     public void playGetDrop() {

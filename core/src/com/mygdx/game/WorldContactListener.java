@@ -36,6 +36,8 @@ public class WorldContactListener implements ContactListener {
             YearOneBoss boss = (YearOneBoss) fixtureB.getUserData();
             WeaponObject weapon = (WeaponObject) fixtureA.getUserData();
             boss.life -= weapon.getDamage();
+
+            soundManager.playDamagedBoss();
         }
 
         if(fixtureB.getUserData() instanceof WeaponObject && fixtureA.getUserData() instanceof YearOneBoss){
@@ -43,6 +45,8 @@ public class WorldContactListener implements ContactListener {
             WeaponObject weapon = (WeaponObject) fixtureB.getUserData();
             System.out.println(boss.life);
             boss.life -= weapon.getDamage();
+
+            soundManager.playDamagedBoss();
         }
 
         if(fixtureA.getUserData() instanceof Bullet && fixtureB.getUserData() instanceof YearOneBoss){
