@@ -1,34 +1,50 @@
 package com.mygdx.game.Bodies;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Bodies.BossAttacks.Missile;
 import com.mygdx.game.Helper.CooldownTask;
+import com.mygdx.game.Terraria;
+import com.mygdx.game.Utilities.CurrentUser;
+import com.mygdx.game.Utilities.DatabaseManager;
 import com.mygdx.game.YearOneWorld;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Random;
 
+import static com.mygdx.game.Terraria.*;
+import static com.mygdx.game.Terraria.scrollmine;
+
 public class YearOneBoss extends Sprite {
-    private World world;
+    private final Terraria game;
+    private final World world;
     private Body b2body;
     public GameMode mode;
 
     private final float cooldown = 10f;
-    private float current_cooldown = 0;
+    private final float current_cooldown = 0;
     private float timeSinceLastAttack = 0f;
     private final float attackInterval = 0.2f;
     private static final Texture t1 = new Texture("RAW/attack_serato.png");
     private static final Texture t2 = new Texture("RAW/break_serato.png");
     private static final float width = 100, height = 100;
-    private CooldownTask cooldownBossStateHandler;
+    private final CooldownTask cooldownBossStateHandler;
     public float life;
 
-    public YearOneBoss(World world, float WorldX, float WorldY){
+    public YearOneBoss(final Terraria game, World world, float WorldX, float WorldY){
         super(t1);
+
+        this.game = game;
         this.world = world;
+
         life = 1000;
+
         defineBody(WorldX, WorldY);
         cooldownBossStateHandler = new CooldownTask(10);
         mode = GameMode.COMBAT_MODE;
@@ -84,6 +100,24 @@ public class YearOneBoss extends Sprite {
         if(life == 0){
             world.destroyBody(b2body);
             mode = GameMode.DEAD_MODE;
+
+            try (Connection c = DatabaseManager.getConnection();
+                 PreparedStatement statement = c.prepareStatement(
+                         "UPDATE tblusers SET bossDone=1 WHERE id=?"
+                 )) {
+                c.setAutoCommit(false);
+
+                statement.setInt(1, CurrentUser.getCurrentUserID());
+
+                statement.executeUpdate();
+                c.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            game.setScreen(Terraria.miningworld);
+            Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getBlacksmithBoard().getStage(), miningworld.getWorld().getGuardBoard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
+
         }
     }
 

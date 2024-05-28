@@ -9,11 +9,6 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("CITerraria");
 
-		//TODO first splashscreen for cutscene (auto)
-
-		//TODO ideas
-		// when trying to exit, pop up screen (threads)
-
 		//sets app into fullscreen as launched
 		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 

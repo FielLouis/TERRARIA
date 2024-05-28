@@ -15,17 +15,18 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Helper.CutsceneHelper;
 import com.mygdx.game.Helper.Pair;
 import com.mygdx.game.Helper.SoundManager;
 import com.mygdx.game.Helper.WorldCreator;
 import com.mygdx.game.Items.Item;
-import com.mygdx.game.Screens.BlackSmithBoard;
-import com.mygdx.game.Screens.GuardBoard;
-import com.mygdx.game.Screens.Hud;
+import com.mygdx.game.Screens.*;
 import com.mygdx.game.Block.Block;
-import com.mygdx.game.Screens.MerchantBoard;
 import com.mygdx.game.Bodies.*;
+import com.mygdx.game.Utilities.CurrentUser;
+import com.mygdx.game.Utilities.DatabaseManager;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,6 +59,54 @@ public class MiningWorld extends GameWorld{
             canJump = true;
             jump = 2;
         }
+    }
+
+    private boolean checkBossDoneCutscene() {
+        try (Connection c = DatabaseManager.getConnection();
+             Statement statement = c.createStatement()) {
+            String query = "SELECT * FROM tblusers WHERE id=?";
+            PreparedStatement preparedStatement = c.prepareStatement(query);
+
+            preparedStatement.setInt(1, CurrentUser.getCurrentUserID());
+            ResultSet res = preparedStatement.executeQuery();
+
+            while (res.next()) {
+                if (res.getBoolean("bossCutsceneDone")) {
+                    System.out.println("Boss Cutscene Done");
+                    return true;
+                } else {
+                    System.out.println("Boss Cutscene Not Done");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    private boolean checkBossDone() {
+        try (Connection c = DatabaseManager.getConnection();
+             Statement statement = c.createStatement()) {
+            String query = "SELECT * FROM tblusers WHERE id=?";
+            PreparedStatement preparedStatement = c.prepareStatement(query);
+
+            preparedStatement.setInt(1, CurrentUser.getCurrentUserID());
+            ResultSet res = preparedStatement.executeQuery();
+
+            while (res.next()) {
+                if (res.getBoolean("bossDone")) {
+                    System.out.println("Boss Done");
+                    return true;
+                } else {
+                    System.out.println("Boss not Done");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 
     public MiningWorld(final Terraria game) {
@@ -105,6 +154,10 @@ public class MiningWorld extends GameWorld{
     }
 
     public void update(float dt){
+
+        if(!checkBossDoneCutscene() && checkBossDone()) {
+            game.setScreen(new CutsceneHelper(game ,"ending"));
+        }
 
         handleInput(dt);
         player.update(dt);
@@ -210,6 +263,19 @@ public class MiningWorld extends GameWorld{
         gamecam.update();
     }
 
+    private void transferWorld() {
+        if(checkBossDone() && checkBossDoneCutscene()) {
+            System.out.println("going to already won");
+            game.setScreen(new AlreadyWon(game));
+        } else {
+            System.out.println("going to one");
+
+            game.setScreen(Terraria.one);
+            Terraria.gameMode = GameMode.YEAR_ONE_MODE;
+
+        }
+    }
+
     public void handleInput(float dt){
         playerListenerMine.updateListenerA();
 
@@ -219,8 +285,12 @@ public class MiningWorld extends GameWorld{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)){
-            game.setScreen(Terraria.one);
-            Terraria.gameMode = GameMode.YEAR_ONE_MODE;
+
+//            game.setScreen(Terraria.one);
+//            Terraria.gameMode = GameMode.YEAR_ONE_MODE;
+
+            transferWorld();
+
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump){

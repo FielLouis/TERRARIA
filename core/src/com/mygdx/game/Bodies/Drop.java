@@ -5,9 +5,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Items.Item;
 
 public class Drop extends Sprite {
-    private World world;
+    private final World world;
     private Body b2body;
-    private Item item;
+    private final Item item;
 
     public Drop(World world, float WorldX, float WorldY, Item item){
         super(item.getTexture());

@@ -45,11 +45,21 @@ public class YearOneWorld extends GameWorld{
     private final MyInputProcessorFactory.MyInputListenerB playerListenerScroll;
     private final MiningWorld past_world;
     public static boolean isDone = false;
+    private boolean canJump;
+    private int jump;
+
+    private void resetJump() {
+        if(player.getB2body().getLinearVelocity().y == 0) {
+            canJump = true;
+            jump = 2;
+        }
+    }
 
 
     public YearOneWorld(final Terraria game, MiningWorld mineworld) {
         this.game = game;
         this.past_world = mineworld;
+        jump = 2;
 
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(Terraria.V_WIDTH + 200, Terraria.V_HEIGHT + 200,gamecam);
@@ -82,7 +92,7 @@ public class YearOneWorld extends GameWorld{
         player.getB2body().setTransform(new Vector2(320,320), 0);
         player.setCurrent_mode(GameMode.COMBAT_MODE);
 
-        boss = new YearOneBoss(world, 520, 500);
+        boss = new YearOneBoss(game, world, 520, 500);
 
         MyInputProcessorFactory inputFactory = new MyInputProcessorFactory();
         playerListenerScroll = (MyInputProcessorFactory.MyInputListenerB) inputFactory.processInput(this, "B", player);
@@ -97,6 +107,8 @@ public class YearOneWorld extends GameWorld{
         handleInput(dt);
         player.update(dt);
         boss.update(dt, player.getPosition().x, player.getPosition().y);
+
+        resetJump();
 
         if(player.getLife() <= 0){
             Terraria.gameMode = GameMode.MINING_MODE;
@@ -176,9 +188,14 @@ public class YearOneWorld extends GameWorld{
 
     public void handleInput(float dt){
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump){
             player.getB2body().applyLinearImpulse(new Vector2(0, 900f), player.getB2body().getWorldCenter(), true);
-            player.getB2body().applyLinearImpulse(new Vector2(0, 900f), player.getB2body().getWorldCenter(), true);
+
+            jump--;
+
+            if(jump <= 0) {
+                canJump = false;
+            }
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D) && player.getB2body().getLinearVelocity().x <= 50){
@@ -195,6 +212,10 @@ public class YearOneWorld extends GameWorld{
             Vector3 worldCoordinates = gamecam.unproject(screenCoordinates);
 
             player.attack(dt, worldCoordinates.x, worldCoordinates.y);
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
         }
 
     }

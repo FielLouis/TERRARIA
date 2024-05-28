@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -25,6 +22,7 @@ public class MainMenuScreen extends GameScreen {
     private final SpriteBatch batch;
     private final Stage stage;
     private final Skin skin;
+//    private Dialog quitDialog;
 
     public MainMenuScreen(Terraria game) {
         super(game,"UI/MainMenuScreen.png");
@@ -40,15 +38,14 @@ public class MainMenuScreen extends GameScreen {
 
         skin = new Skin(Gdx.files.internal("UI/uiskin_mainmenu.json"), atlas);
 
-        // Create title label
-        Label.LabelStyle labelStyle = new Label.LabelStyle(skin.getFont("default-font"), Color.WHITE);
-        Label titleLabel = new Label("Your Game Title", labelStyle);
-        titleLabel.setAlignment(Align.center);
-        titleLabel.setPosition((viewport.getWorldWidth() - titleLabel.getWidth()) / 2, viewport.getWorldHeight() - 100);
+        // Load the title image texture
+        Texture titleTexture = new Texture(Gdx.files.internal("UI/logo_yes_tree.png")); // replace with your image path
+        Image titleImage = new Image(titleTexture);
+        titleImage.setScale(5);
+        titleImage.setPosition((viewport.getWorldWidth() - titleImage.getWidth() * titleImage.getScaleX()) / 2, viewport.getWorldHeight() - titleImage.getHeight() * titleImage.getScaleY() - 100);
 
         TextButton btnLogin = new TextButton(optionLogin, skin);
         btnLogin.setPosition((viewport.getWorldWidth() - btnLogin.getWidth()) / 2, ((viewport.getWorldHeight() - btnLogin.getHeight()) / 2) - 150);
-
         btnLogin.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -58,7 +55,6 @@ public class MainMenuScreen extends GameScreen {
 
         TextButton btnRegister = new TextButton(optionRegister, skin);
         btnRegister.setPosition(((viewport.getWorldWidth() - btnLogin.getWidth()) / 2) + ((viewport.getWorldWidth() - btnLogin.getWidth()) / 4) + 25, ((viewport.getWorldHeight() - btnLogin.getHeight()) / 2) - 150);
-
         btnRegister.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -66,19 +62,44 @@ public class MainMenuScreen extends GameScreen {
             }
         });
 
-        stage.addActor(titleLabel);
+        stage.addActor(titleImage);
         stage.addActor(btnLogin);
         stage.addActor(btnRegister);
+
     }
+
+    //failed attempt
+//    private void createQuitDialog() {
+//        quitDialog = new Dialog("Confirm Quit", skin) {
+//            @Override
+//            protected void result(Object object) {
+//                if (object.equals(true)) {
+//                    Gdx.app.exit();
+//                } else {
+//                    this.hide();
+//                }
+//            }
+//        };
+//        quitDialog.text("Are you sure you want to quit the game?");
+//        quitDialog.button("Yes", true);
+//        quitDialog.button("No", false);
+//        quitDialog.setMovable(false);
+//        quitDialog.setModal(true);
+//    }
 
     @Override
     public void handleInput(final float delta) {
         super.handleInput(delta);
+
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT)) {
+//            quitDialog.show(stage);
+//        }
     }
 
     @Override
     public void render(final float delta) {
         super.render(delta);
+
 
         stage.act(delta);
         stage.draw();

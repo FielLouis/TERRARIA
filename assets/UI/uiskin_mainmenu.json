@@ -31,4 +31,10 @@
       "imageDown": "default-circle"
     }
   }
+  "WindowStyle": {
+    "default": {
+      "titleFont": "default-font",
+      "background": "default-window"
+    }
+  }
 }

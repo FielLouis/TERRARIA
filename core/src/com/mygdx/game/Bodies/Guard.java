@@ -19,11 +19,11 @@ import java.util.ArrayList;
 public class Guard extends Sprite {
 
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
-    private World world;
+    private final World world;
     private Body b2body;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime = 0f;
-    private ArrayList<Pair<Item, Integer>> inventory;
+    private final ArrayList<Pair<Item, Integer>> inventory;
     public static GuardBoard blackSmithBoard;
 
     public Guard (World world, SpriteBatch batch, Player player){

@@ -20,32 +20,48 @@ public class CutsceneHelper implements Screen {
     private final Terraria game;
     private Texture backgroundTexture;
     private final SpriteBatch batch;
+    String path;
     int counter;
 
-    public CutsceneHelper(Terraria game) {
+    public CutsceneHelper(Terraria game, String type) {
         this.game = game;
         batch = new SpriteBatch();
+
+        if(type.equals("ending")) {
+            path = "end";
+        } else {
+            path = "";
+        }
+
         counter = 1;
 
-        backgroundTexture = new Texture("STORYLINE/" + counter + ".png");
+        backgroundTexture = new Texture("STORYLINE/" + path + counter + ".png");
     }
 
     public void handleInput(float delta) {
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             counter++;
 
-            if(counter > 26) {
+            if(counter > 26 || (counter > 3 && path.equals("end"))) {
 
                 //updating database
                 try (Connection c = DatabaseManager.getConnection();
                      PreparedStatement statement = c.prepareStatement(
                              "UPDATE tblusers SET cutsceneDone=1 WHERE id=?"
+                     );
+                     PreparedStatement statement2 = c.prepareStatement(
+                             "UPDATE tblusers SET bossCutsceneDone=1 WHERE id=?"
                      )) {
                     c.setAutoCommit(false);
 
-                    statement.setInt(1, CurrentUser.getCurrentUserID());
+                    if(path.equals("end")) {
+                        statement2.setInt(1, CurrentUser.getCurrentUserID());
+                        statement2.executeUpdate();
+                    } else {
+                        statement.setInt(1, CurrentUser.getCurrentUserID());
+                        statement.executeUpdate();
+                    }
 
-                    statement.executeUpdate();
                     c.commit();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -56,7 +72,7 @@ public class CutsceneHelper implements Screen {
 
             } else {
 
-                backgroundTexture = new Texture("STORYLINE/" + counter + ".png");
+                backgroundTexture = new Texture("STORYLINE/" + path + counter + ".png");
 
                 batch.begin();
                 batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

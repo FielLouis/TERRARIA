@@ -3,6 +3,7 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -92,7 +93,7 @@ public class LoginScreen extends GameScreen {
         if (isValidLogin(usernameField.getText(), String.valueOf(passwordField.getText().hashCode()))) {
 
             if(!checkIsCutsceneDone()) {
-                game.setScreen(new CutsceneHelper(game));
+                game.setScreen(new CutsceneHelper(game, "start"));
             } else {
                 game.setScreen(Terraria.miningworld);
 
