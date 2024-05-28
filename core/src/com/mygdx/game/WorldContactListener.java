@@ -3,8 +3,10 @@ package com.mygdx.game;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Bodies.*;
 import com.mygdx.game.Bodies.WorldWeapons.Bullet;
+import com.mygdx.game.Helper.SoundManager;
 
 public class WorldContactListener implements ContactListener {
+    SoundManager soundManager = new SoundManager();
     GameWorld world;
     public WorldContactListener(GameWorld world){
         this.world = world;
@@ -70,8 +72,13 @@ public class WorldContactListener implements ContactListener {
             Projectile projectile = (Projectile) fixtureA.getUserData();
             player.setLife(player.getLife() - projectile.getDamage());
 
+
+
             projectile.setAlpha(0);
             YearOneWorld.bodiesToremove.add(projectile.getBody());
+
+            soundManager.playExplode();
+            soundManager.playDamaged();
         }
 
         if(fixtureB.getUserData() instanceof Projectile && fixtureA.getUserData() instanceof Player){
@@ -82,18 +89,24 @@ public class WorldContactListener implements ContactListener {
 
             projectile.setAlpha(0);
             YearOneWorld.bodiesToremove.add(projectile.getBody());
+            soundManager.playExplode();
+            soundManager.playDamaged();
         }
 
         if(fixtureB.getUserData() instanceof Projectile && !(fixtureA.getUserData() instanceof Projectile) && !(fixtureA.getUserData() instanceof YearOneBoss)){
             Projectile projectile = (Projectile) fixtureB.getUserData();
             projectile.setAlpha(0);
             YearOneWorld.bodiesToremove.add(projectile.getBody());
+
+            soundManager.playExplode();
         }
 
         if(fixtureA.getUserData() instanceof Projectile && !(fixtureB.getUserData() instanceof Projectile) && !(fixtureB.getUserData() instanceof YearOneBoss)){
             Projectile projectile = (Projectile) fixtureA.getUserData();
             projectile.setAlpha(0);
             YearOneWorld.bodiesToremove.add(projectile.getBody());
+
+            soundManager.playExplode();
         }
 
         if(fixtureA.getUserData() instanceof Bullet){

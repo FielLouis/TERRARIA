@@ -8,6 +8,7 @@ public class CooldownTask implements Runnable {
     public CooldownTask(int cooldownTime) {
         this.cooldownTime = cooldownTime;
         this.isCooldownActive = false;
+
     }
 
     @Override
@@ -15,7 +16,7 @@ public class CooldownTask implements Runnable {
         try {
 
             isCooldownActive = true;
-            Thread.sleep(cooldownTime * 1000);
+            Thread.sleep(cooldownTime * 1000L);
             isCooldownActive = false;
 
         } catch (InterruptedException e) {
@@ -29,7 +30,7 @@ public class CooldownTask implements Runnable {
     }
 
     public void startCooldown() {
-        cooldownThread = new Thread(this);
-        cooldownThread.start();
+            cooldownThread = new Thread(this);
+            cooldownThread.start();
     }
 }

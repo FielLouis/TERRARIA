@@ -109,7 +109,23 @@ public class WorldCreator {
 
         }
 
+        BodyDef bdef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fdef = new FixtureDef();
+        Body body;
 
+        for(MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2), (rect.getY() + rect.getHeight() / 2) );
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 , rect.getHeight() / 2);
+            fdef.shape = shape;
+            body.createFixture(fdef).setUserData("PLATFORM");
+        }
 
 
         return tiles;

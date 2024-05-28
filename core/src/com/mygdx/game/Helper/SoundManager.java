@@ -12,15 +12,25 @@ public class SoundManager {
     private static Music notEnoughMoney = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/notEnoughMoney.wav"));
     private static Music breakBlock = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/breakBlock.mp3"));
 
+    private static Music allHail = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/allHail.mp3"));
+
     public static void playBackgroundMusic() {
         nujabes.setLooping(true);
         nujabes.play();
         nujabes.setVolume(0.3f);
     }
 
+    public static void playAllHail() {
+        if(allHail.isPlaying()) return;
+        allHail.setLooping(false);
+        allHail.play();
+        allHail.setVolume(0.3f);
+    }
+
     public static void playBossMusic() {
         boss.setLooping(true);
         boss.play();
+        boss.setVolume(0.5f);
     }
     public static void playBuySomehthing() {
         if(buySomething.isPlaying()) return;
@@ -32,6 +42,22 @@ public class SoundManager {
         Music placeDirt = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/placeDirt.mp3"));
         placeDirt.setLooping(false);
         placeDirt.play();
+    }
+
+    public void playExplode() {
+        Music explode = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/explode.mp3"));
+        explode.setLooping(false);
+        explode.setVolume(0.2f);
+        explode.play();
+
+    }
+
+    public void playDamaged() {
+        Music damaged = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/damaged.mp3"));
+        damaged.setLooping(false);
+        damaged.setVolume(1f);
+        damaged.play();
+
     }
 
     public void playGetDrop() {

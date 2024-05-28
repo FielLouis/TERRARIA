@@ -13,7 +13,7 @@ public class Paladin extends WeaponObject {
     public Paladin(World world, Player player, float WorldX, float WorldY){
         super(new Texture("RAW/sword.png"));
         this.player = player;
-        damage = 100f;
+        damage = 30f;
         width = 10;
         height = 40;
         speed = 10;

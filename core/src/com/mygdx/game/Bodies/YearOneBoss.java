@@ -22,18 +22,18 @@ import static com.mygdx.game.Terraria.*;
 
 public class YearOneBoss extends Sprite {
     private final Terraria game;
-    private World world;
+    private final World world;
     private Body b2body;
     public GameMode mode;
 
     private final float cooldown = 10f;
-    private float current_cooldown = 0;
+    private final float current_cooldown = 0;
     private float timeSinceLastAttack = 0f;
     private final float attackInterval = 0.2f;
-    private static final Texture t1 = new Texture("RAW/attack_serato.png");
-    private static final Texture t2 = new Texture("RAW/break_serato.png");
+    private static final Texture t1 = new Texture("RAW/serato_cool_and_normal.png");
+    private static final Texture t2 = new Texture("RAW/serato_break.png");
     private static final float width = 100, height = 100;
-    private CooldownTask cooldownBossStateHandler;
+    private final CooldownTask cooldownBossStateHandler;
     public float life;
 
     public YearOneBoss(final Terraria game, World world, float WorldX, float WorldY){
@@ -95,7 +95,7 @@ public class YearOneBoss extends Sprite {
             cooldownBossStateHandler.startCooldown();
         }
 
-        if(life == 0){
+        if(life <= 0){
             world.destroyBody(b2body);
             mode = GameMode.DEAD_MODE;
 

@@ -16,16 +16,15 @@ import com.mygdx.game.Terraria;
 import java.util.ArrayList;
 
 public class Guard extends Sprite {
-
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
-    private World world;
+    private final World world;
     private Body b2body;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime = 0f;
-    private ArrayList<Pair<Item, Integer>> inventory;
+    private final ArrayList<Pair<Item, Integer>> inventory;
     public static GuardBoard blackSmithBoard;
 
-    public Guard (World world, SpriteBatch batch, Player player){
+    public Guard(World world, SpriteBatch batch, Player player){
         super(ATLAS.findRegion("steve"));
         this.world = world;
         blackSmithBoard = new GuardBoard(batch, player);
@@ -54,7 +53,7 @@ public class Guard extends Sprite {
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(32 / Terraria.PPM * 40,384 / Terraria.PPM * 3);
+        bdef.position.set(32 / Terraria.PPM * 130 ,384 / Terraria.PPM * 3);
 
         b2body = world.createBody(bdef);
 
