@@ -1,28 +1,31 @@
 package com.mygdx.game.Bodies.WorldWeapons;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Bodies.Player;
 import com.mygdx.game.Bodies.WeaponObject;
+import com.mygdx.game.YearOneWorld;
 
 public class Paladin extends WeaponObject {
 
+
     public Paladin(World world, Player player, float WorldX, float WorldY){
-        damage = 20f;
+        super(new Texture("RAW/sword.png"));
+        this.player = player;
+        damage = 100f;
         width = 10;
         height = 40;
         speed = 10;
         angle = 0;
-        defineBody(world, player, WorldX, WorldY);
+        defineBody(world, -1, -1);
     }
 
-    public void defineBody(World world,Player player, float WorldX, float WorldY) {
-        this.player = player;
+    public void defineBody(World world, float WorldX, float WorldY) {
         setPosition(WorldX, WorldY);
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(WorldX, WorldY);
-
 
         b2body = world.createBody(bdef);
 
@@ -30,13 +33,14 @@ public class Paladin extends WeaponObject {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-
         shape.setAsBox(width / 2, height / 2);
         fdef.shape = shape;
         fdef.friction = 30f;
 
         b2body.setGravityScale(0f);
         b2body.createFixture(fdef).setUserData(this);
+
+        YearOneWorld.spritesToDraw.add(this);
     }
 
     @Override
@@ -50,14 +54,13 @@ public class Paladin extends WeaponObject {
 
         float newX = player.getPosition().x + 40 * MathUtils.cos(angle);
         float newY = player.getPosition().y + 40 * MathUtils.sin(angle);
-
-        setPosition(newX, newY);
-        getBody().setTransform(newX, newY, angle);
+        getBody().setTransform(newX, newY, 135);
     }
 
     @Override
     public void useWeapon(float delta, float x, float y) {
         useWeapon(delta);
+
     }
 
     @Override
@@ -72,7 +75,7 @@ public class Paladin extends WeaponObject {
 
     @Override
     public void update(float delta) {
-
+        setPosition(b2body.getPosition().x - 35, b2body.getPosition().y - 18);
     }
 
     public void render(float delta) {

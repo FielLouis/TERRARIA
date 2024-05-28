@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 public class Blacksmith extends Sprite {
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
-    private final World world;
+    private World world;
     private Body b2body;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime = 0f;
-    private final ArrayList<Pair<Item, Integer>> inventory;
+    private ArrayList<Pair<Item, Integer>> inventory;
     public static BlackSmithBoard blackSmithBoard;
     public Blacksmith (World world, SpriteBatch batch, Player player){
         super(ATLAS.findRegion("steve"));

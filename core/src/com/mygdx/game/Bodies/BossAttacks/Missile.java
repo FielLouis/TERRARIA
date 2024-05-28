@@ -1,11 +1,18 @@
 package com.mygdx.game.Bodies.BossAttacks;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Bodies.Projectile;
 
 public class Missile extends Projectile {
 
     public Missile(World world, float WorldX, float WorldY){
+        this(new Texture("RAW/missile.png"), world, WorldX, WorldY);
+    }
+
+    public Missile(Texture texture, World world, float WorldX, float WorldY){
+        super(texture);
         this.world = world;
         damage = 5f;
         width = 20;
@@ -42,8 +49,12 @@ public class Missile extends Projectile {
         return b2body;
     }
 
-    public void render(float delta) {
+    public void render(SpriteBatch batch) {
+        this.draw(batch);
+    }
 
+    public void update(float dt) {
+        this.setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
     }
 
 }

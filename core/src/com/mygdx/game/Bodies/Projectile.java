@@ -1,5 +1,6 @@
 package com.mygdx.game.Bodies;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,6 +12,10 @@ public abstract class Projectile extends Sprite {
 
     protected World world;
     protected Body b2body;
+
+    public Projectile(Texture texture) {
+        super(texture);
+    }
 
     public Body getBody(){
         return b2body;

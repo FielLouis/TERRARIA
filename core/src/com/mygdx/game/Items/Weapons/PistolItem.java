@@ -33,7 +33,7 @@ public class PistolItem extends Weapon {
     @Override
     public WeaponObject getWeaponObject(World world, Player player) {
         if(pistol == null){
-            pistol = new Pistol(world, player, player.getX(), player.getY());
+            pistol = new Pistol(world, player, -1, -1);
         }
         return pistol;
     }

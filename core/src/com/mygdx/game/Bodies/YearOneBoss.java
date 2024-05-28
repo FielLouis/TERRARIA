@@ -19,22 +19,21 @@ import java.sql.SQLException;
 import java.util.Random;
 
 import static com.mygdx.game.Terraria.*;
-import static com.mygdx.game.Terraria.scrollmine;
 
 public class YearOneBoss extends Sprite {
     private final Terraria game;
-    private final World world;
+    private World world;
     private Body b2body;
     public GameMode mode;
 
     private final float cooldown = 10f;
-    private final float current_cooldown = 0;
+    private float current_cooldown = 0;
     private float timeSinceLastAttack = 0f;
     private final float attackInterval = 0.2f;
     private static final Texture t1 = new Texture("RAW/attack_serato.png");
     private static final Texture t2 = new Texture("RAW/break_serato.png");
     private static final float width = 100, height = 100;
-    private final CooldownTask cooldownBossStateHandler;
+    private CooldownTask cooldownBossStateHandler;
     public float life;
 
     public YearOneBoss(final Terraria game, World world, float WorldX, float WorldY){
@@ -42,7 +41,6 @@ public class YearOneBoss extends Sprite {
 
         this.game = game;
         this.world = world;
-
         life = 1000;
 
         defineBody(WorldX, WorldY);

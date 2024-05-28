@@ -11,19 +11,20 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Bodies.GameMode;
 import com.mygdx.game.Bodies.Player;
+import com.mygdx.game.Helper.SoundManager;
 import com.mygdx.game.Inventory.InventoryBox;
 import com.mygdx.game.Inventory.ItemBox;
 import com.mygdx.game.Terraria;
 
 public class GuardBoard {
 
-    private Stage stage;
-    private Viewport viewport;
+    private final Stage stage;
+    private final Viewport viewport;
 
-    private InventoryBox tuitionBox;
+    private final InventoryBox tuitionBox;
     public boolean isHidden = true;
     private boolean alreadyTalked = false;
-    private Player player;
+    private final Player player;
 
     public GuardBoard(SpriteBatch batch, Player player){
         this.player = player;
@@ -52,6 +53,8 @@ public class GuardBoard {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Terraria.gameMode = GameMode.YEAR_ONE_MODE;
+                    SoundManager.stopAllMusic();
+                    SoundManager.playBossMusic();
                     return false;
                 }
 

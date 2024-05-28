@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 public class Player extends Sprite{
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
-    private final World world;
+    private World world;
     private Body b2body;
     private Animation<TextureRegion> walkRightAnimation;
     private Animation<TextureRegion> walkLeftAnimation;
@@ -38,11 +38,11 @@ public class Player extends Sprite{
     private AnimationState currentAnimationState;
     private float stateTime = 0f;
     private ArrayList<Pair<Item, Integer>> inventory;
-    private final HashSet<Body> playerDeletes;
+    private HashSet<Body> playerDeletes;
     private int currentItem = 0;
-    private final Hud hud;
+    private Hud hud;
     private GameMode current_mode;
-    private final SoundManager soundManager = new SoundManager();
+    private SoundManager soundManager = new SoundManager();
 
     private float life;
 

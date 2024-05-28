@@ -10,7 +10,6 @@ import com.mygdx.game.Helper.Pair;
 import com.mygdx.game.Items.Coin;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.Sellable;
-import com.mygdx.game.Screens.BlackSmithBoard;
 import com.mygdx.game.Screens.GuardBoard;
 import com.mygdx.game.Terraria;
 
@@ -19,11 +18,11 @@ import java.util.ArrayList;
 public class Guard extends Sprite {
 
     private static final TextureAtlas ATLAS = new TextureAtlas("ANIMATION/steve.txt");
-    private final World world;
+    private World world;
     private Body b2body;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime = 0f;
-    private final ArrayList<Pair<Item, Integer>> inventory;
+    private ArrayList<Pair<Item, Integer>> inventory;
     public static GuardBoard blackSmithBoard;
 
     public Guard (World world, SpriteBatch batch, Player player){

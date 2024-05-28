@@ -1,5 +1,6 @@
 package com.mygdx.game.Bodies.WorldWeapons;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -20,6 +21,7 @@ public class Pistol extends WeaponObject {
     private ScheduledExecutorService scheduler;
 
     public Pistol(World world, Player player, float WorldX, float WorldY) {
+        super(new Texture("RAW/iron.png"));
         this.world = world;
         this.player = player;
         damage = 0f;
