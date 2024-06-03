@@ -48,11 +48,11 @@ public class GuardBoard {
         stage.addActor(tuitionBox.itembox);
         stage.addActor(tuitionBox.itembox.countLabel);
 
-
         tuitionBox.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Terraria.gameMode = GameMode.YEAR_ONE_MODE;
+                    //TODO test
                     SoundManager.stopAllMusic();
                     SoundManager.playBossMusic();
                     return false;

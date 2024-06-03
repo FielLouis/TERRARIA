@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Bodies.BossAttacks.Missile;
 import com.mygdx.game.Helper.CooldownTask;
+import com.mygdx.game.Helper.SoundManager;
 import com.mygdx.game.Terraria;
 import com.mygdx.game.Utilities.CurrentUser;
 import com.mygdx.game.Utilities.DatabaseManager;
@@ -115,6 +116,9 @@ public class YearOneBoss extends Sprite {
 
             game.setScreen(Terraria.miningworld);
             Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getBlacksmithBoard().getStage(), miningworld.getWorld().getGuardBoard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
+
+            SoundManager.stopAllMusic();
+            SoundManager.playBackgroundMusic();
 
         }
     }

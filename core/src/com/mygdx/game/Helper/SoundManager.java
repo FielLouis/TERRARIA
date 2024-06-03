@@ -53,10 +53,13 @@ public class SoundManager {
     }
 
     public void playDamaged() {
-        Music damaged = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/damaged.mp3"));
-        damaged.setLooping(false);
-        damaged.setVolume(1f);
-        damaged.play();
+        bossHurt.setLooping(false);
+        bossHurt.setVolume(1f);
+        bossHurt.play();
+//        Music damaged = Gdx.audio.newMusic(Gdx.files.internal("MUSIC/damaged.mp3"));
+//        damaged.setLooping(false);
+//        damaged.setVolume(1f);
+//        damaged.play();
     }
 
     public void playDamagedBoss() {

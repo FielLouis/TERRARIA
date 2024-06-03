@@ -26,9 +26,9 @@ public class Guard extends Sprite {
 
     public Guard(World world, SpriteBatch batch, Player player){
         super(ATLAS.findRegion("steve"));
+
         this.world = world;
         blackSmithBoard = new GuardBoard(batch, player);
-
         inventory = new ArrayList<>(8);
 
         for(int i = 0; i < 8; i++){
@@ -77,6 +77,7 @@ public class Guard extends Sprite {
         TextureRegion currentFrame;
         currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         setRegion(currentFrame);
+
     }
 
     public Pair<Coin, Integer> buyResources(Pair<Item,Integer> resource){
@@ -90,4 +91,5 @@ public class Guard extends Sprite {
     public Vector2 getPosition(){
         return b2body.getPosition();
     }
+
 }

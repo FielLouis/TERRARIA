@@ -63,8 +63,8 @@ public class Player extends Sprite{
             inventory.add(new Pair<>(null,0));
         }
 
-        inventory.add(0,new Pair<>(new PaladinItem(), 1));
-        inventory.add(1,new Pair<>(new PistolItem(), 1));
+//        inventory.add(0,new Pair<>(new PaladinItem(), 1));
+//        inventory.add(1,new Pair<>(new PistolItem(), 1));
 
 
         definePlayer();

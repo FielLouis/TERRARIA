@@ -273,6 +273,9 @@ public class MiningWorld extends GameWorld{
             game.setScreen(Terraria.one);
             Terraria.gameMode = GameMode.YEAR_ONE_MODE;
 
+//            SoundManager.stopAllMusic();
+//            SoundManager.playBossMusic();
+
         }
     }
 

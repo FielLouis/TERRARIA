@@ -23,6 +23,8 @@ import com.mygdx.game.Helper.HealthNumberDisplay;
 import com.mygdx.game.Helper.Pair;
 import com.mygdx.game.Helper.WorldCreator;
 import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.Weapons.PaladinItem;
+import com.mygdx.game.Items.Weapons.PistolItem;
 import com.mygdx.game.Screens.Hud;
 import com.mygdx.game.Bodies.*;
 import com.mygdx.game.Bodies.BossAttacks.Missile;
@@ -100,6 +102,9 @@ public class YearOneWorld extends GameWorld{
         player = new Player(world, hud);
         player.getB2body().setTransform(new Vector2(320,320), 0);
         player.setCurrent_mode(GameMode.COMBAT_MODE);
+
+        player.getInventory().add(0,new Pair<>(new PaladinItem(), 1));
+        player.getInventory().add(1,new Pair<>(new PistolItem(), 1));
 
         boss = new YearOneBoss(game, world, 520, 500);
         bossHealth = new HealthNumberDisplay(boss);

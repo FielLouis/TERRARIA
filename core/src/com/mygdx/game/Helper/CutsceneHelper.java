@@ -16,6 +16,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static com.mygdx.game.Terraria.*;
+import static com.mygdx.game.Terraria.scrollmine;
+
 public class CutsceneHelper implements Screen {
     private final Terraria game;
     private Texture backgroundTexture;
@@ -69,6 +72,8 @@ public class CutsceneHelper implements Screen {
 
                 //transferring to MiningWorld
                 game.setScreen(Terraria.miningworld);
+
+                Gdx.input.setInputProcessor(new InputMultiplexer(ip1, ip2, miningworld.getWorld().getMerchantboard().getStage(), miningworld.getWorld().getBlacksmithBoard().getStage(), miningworld.getWorld().getGuardBoard().getStage(), miningworld.getWorld().getPlayerListenerMine(),scrollyearone, scrollmine));
 
             } else {
 

@@ -6,11 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Terraria;
@@ -38,7 +34,7 @@ public class RegisterScreen extends GameScreen {
         Table table = new Table();
         table.setFillParent(true);
 
-        TextField txtRegister = new TextField("REGISTRATION", skin);
+        TextField txtRegister = new TextField("REGISTER", skin);
         txtRegister.setPosition(((Gdx.graphics.getWidth() - txtRegister.getWidth()) / 2), Gdx.graphics.getHeight() - 300);
 
         Label usernameLabel = new Label("Username:", skin);
@@ -49,10 +45,11 @@ public class RegisterScreen extends GameScreen {
         passwordField.setPasswordCharacter('*');
         passwordField.setPasswordMode(true);
 
-        TextButton registerButton = new TextButton("Register", skin);
+        TextButton registerButton = new TextButton("Register User", skin);
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 if (isValidRegister(usernameField.getText())) {
                     //insert data
                     try (Connection c = DatabaseManager.getConnection();
@@ -71,7 +68,12 @@ public class RegisterScreen extends GameScreen {
                         e.printStackTrace();
                     }
 
-                    game.setScreen(new LoginScreen(game));
+                    game.setScreen(new MainMenuScreen(game));
+
+                } else {
+
+                    //something
+
                 }
             }
         });
